@@ -1,0 +1,58 @@
+\chapter*{第一章附录}
+\section*{不存在二阶矩阵满足Dirac方程的要求}
+这一点其实非常简单。作为一个必要条件，首先我们试图找到足够多的满足$\textbf{A}^{2}=1$的矩阵。注意到对于任一$2\times2$矩阵
+\begin{equation}
+\textbf{A}=
+    \left(                 
+  \begin{array}{cc}   
+    a & b \\  
+    c & d \\  
+  \end{array}
+\right)        
+\end{equation}
+若其满足$\textbf{A}^{2}=1$,我们会得到
+\begin{equation}
+\label{con1}
+\left\{
+        \begin{array}{llll}
+            a^{2}+bc=1 \\
+            cb+d^{2}=1 \\
+            b(a+d)=0 \\
+            c(a+d)=0
+        \end{array}
+    \right.
+\end{equation}
+之后是一些简单的观察及分类讨论。
+
+如果我们有$a+d\neq0$,则$b=c=0$,从而我们有
+\begin{equation}
+\left\{
+        \begin{array}{lll}
+            |a|=|d|\\
+            a+d=0 \\
+            b=c=0
+        \end{array}
+    \right.
+\end{equation}
+从而此时只有$\textbf{B}_{1}=\lambda\textbf{I}$满足条件，其中$\lambda$为任意复数。由于单位阵与任意非零矩阵的反对易关系非零，从(\ref{requsetofDirac})中我们可以看到，此时不存在满足条件的解。
+
+如果$a+d=0$，则(\ref{con1})变为
+\begin{equation}
+\left\{
+        \begin{array}{ll}
+            a^{2}+bc=1 \\
+            a=-d
+        \end{array}
+    \right.
+\end{equation}
+作为复数域上的矩阵，
+\begin{equation}
+\textbf{A}=
+    \left(                 
+  \begin{array}{cc}   
+    a & b \\  
+    c & -a \\  
+  \end{array}
+\right)        
+\end{equation}
+有3个独立参数，而从(\ref{requsetofDirac})中我们可以得到$\pmb{\alpha}^{j}$与$\pmb{\beta}$是线性无关的(令$a_{i}\pmb{\alpha}^{i}+b\pmb{\beta}=0$,然后依次计算其与各个矩阵的反对易关系并利用(\ref{requsetofDirac}))，从而至少应该存在四个线性独立的矩阵，因此在2维情况下找不到满足二阶矩阵满足Dirac方程的要求。

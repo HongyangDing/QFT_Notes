@@ -1,0 +1,1523 @@
+\chapter{Dirac场论}
+\section{Lorentz群的旋量表示}
+目前所有还没被验证是错误的物理理论都满足Lorentz对称性和时空平移对称性\footnote{吐槽一下这一节比较混乱，所以我重新组织了这一节}，因此仔细讨论Lorentz变换的相关性质是比较重要的，
+全体Lorentz变换构成一个群，称为Lorentz群，根据场在Lorentz群作用下的行为可以对场进行分类，我们在(\ref{classfy})中已经给出了标量场、矢量场和张量场在Lorentz变换下的性质，因此一个随之而来的问题就是，在我们的分类标准下，还有没有其他的场。事实上，为了描述费米子，我们需要一种新的场，即旋量场，为此我们需要研究Lorentz群的旋量表示。
+从标题看我们需要解决两个概念的问题，一个是群表示，一个是旋量，然后才可以比较好的理解Lorentz群的旋量表示。
+\subsection{群表示}
+所谓群表示，也就是一个群$G$到另一个群$W$的同态，在物理上我们关心的主要是群的线性表示，也就是从群$G$到一般线性群$GL(n,F)$,的同态,其中$F$是数域，在物理上通常为$\mathbb{C}$，不太确切地讲，由于群的定义是抽象的，我们可以找到用矩阵作为元素构成的一个具体的群来作为抽象群的实现。从群表示论的观点出发我们可以将群$G$中的元素看成作用在$n$维线性空间$X$上的矩阵，即线性变换，将场看作$X$中的元素，从而在Lorentz变换下场的变换性质便可以由线性变换下元素的变换性质来刻画。
+
+作为一个例子，我们先来考虑一下熟悉的转动群$SO(3)$,其中群元素满足$R^{\top}R=RR^{\top}=I$,在转动群中元素的作用下三维向量满足
+\begin{equation}
+    A^{i}\longrightarrow A'^{i}(\vec{x})=R^{ij}A^{j}(R^{-1}\vec{x})
+\end{equation}
+其中$R^{ij}$为$3\times3$矩阵。
+
+在上面这个例子中，我们实际上考虑了转动群$SO(3)$在三维向量空间的一个作用，由于我们在这里考虑的群本身就是一般线性群的一个子群，所以我们可以认为$SO(3)$群本身构成了一个线性表示，嵌入映射$i:SO(3)\hookrightarrow GL(\mathbb{R},3)$建立了一个同态，这样的表示称为定义表示(defining representation)。同一个群可以具有多个不同的表示，如果我们考虑下列到Lorentz群的同态
+\begin{equation}
+    \begin{aligned}
+    \phi:SO(3) &\longrightarrow SO(1,3)\\
+    R &\longrightarrow  \left(
+    \begin{array}{cc}
+        1 &0  \\
+         0&R 
+    \end{array} \right)
+    \end{aligned}
+\end{equation}
+根据定义，这同样是转动群$SO(3)$的一个表示，事实上，将$G$中元素全部映为单位矩阵的平凡的映射也构成了一个表示，我们称之为平凡表示(trivial representation)。对于$SO(3)$的定义表示，我们可以将其中的元素参数化为
+\begin{equation}
+    R=e^{-i\vec{\theta}\cdot\vec{L}}
+\end{equation}
+其中$\vec{L}=(L_{1},L_{2},L_{3})$，$L_{i}$显示形式即为在(\ref{Lorentzgenerator})中将标号相同的矩阵删掉第一行和第一列所得到的$3\times3$矩阵。我们称$L_{i}$为转动群$SO(3)$的生成元，因为根据参数化所有的转动群中的元素可以由这三个生成元的倍数的指数映射$e^{ia_{i}L_{i}}$(不求和)生成，容易验证生成元之间满足关系
+\begin{equation}
+    \left[L_{i},L_{j}\right]=i\epsilon^{ijk}L_{k},\quad i,j,k=1,2,3
+\end{equation}
+其中$\epsilon^{ijk}$为三阶全反对称张量，选取$\epsilon^{123}=1$。
+对于$SO(3)$这样，其中元素可以用一组连续参数描述的连续群称为李群\footnote{严格的定义可以参考Brain C. Hall/任意讲微分流形的书}，$L_
+{i}$之间的对易关系\footnote{一般而言，生成元关系满足 $\left[L_{i},L_{j}\right]=iC^{ijk}L_{k}$,我们称$C^{ijk}$为李群的结构常数，可以证明，结构常数完全确定了一个李群的结构。}定义了群的生成元之间的乘法运算，这个连同加法和数乘构成了一个代数，称为李代数\footnote{当然在李代数的定义中对于乘法运算有更多的要求，比如需要满足Jacobi恒等式等，不过我们此时暂且不需要关心这个}，作为一个线性空间，李代数的一组基即为李群的生成元$L_{i}$。李代数中的元素$X$可以通过指数映射$e^{itX}$与李群中的元素对应，其中$t$是参数，一般而言指数映射既不是单射也不是满射，但是在单位元附近这是一个同胚。可以证明，对于物理上常见的情况如$SO(n)$,$U(n)$，指数映射是满射，即我们可以从生成元出发构建整个连续群；不过Lorentz群的李代数并不是满的，事实上Lorentz群分成了四个不连通的部分，其李代数通过指数映射只能映满包含单位元的那一支(恰当正时的Lorentz变换)。
+
+另一个熟悉的例子来自自旋。我们知道对于$SU(2)$，也存在一个定义表示，Pauli矩阵构成了它的一组生成元，任意群元素具有连续的参数化形式$U=e^{-i\vec{\theta}\cdot\vec{\tau}}$,生成元之间满足
+\begin{equation}
+    \left[\tau_{i},\tau_{j}\right]=i\epsilon^{ijk}\tau_{k},\quad i,j,k=1,2,3
+\end{equation}
+其中$\vec{\tau}=\frac{\vec{\sigma}}{2}$。
+
+经过简单的运算我们可以得到
+\begin{equation}
+\label{chap4U}
+\begin{aligned}
+    U(\vec{\theta})&=1+\sum\limits_{k=1}\limits^{\infty}\frac{1}{k!}(-i\theta_{j}\tau_{j})^{k}\\
+    &={\rm cos}\frac{|\theta|}{2}I-\frac{2i\theta_{i}}{|\theta|}\tau_{i}{\rm sin}\frac{|\theta|}{2}
+    \end{aligned}
+\end{equation}
+其中我们利用了一个常见的计算技巧
+\begin{equation}
+    \theta_{j}\tau_{j}\theta_{m}\tau_{m}=\frac{1}{2}\theta_{j}\theta_{m}\left\{\tau_{j},\tau_{m}\right\}=\frac{1}{2}\theta_{j}\theta_{m}\frac{1}{2}\delta^{jm}=\frac{\vec{\theta}^{2}}{4}
+\end{equation}
+为方便讨论，我们取$\vec{\theta}_{z}=(0,0,\theta)$,于是有
+\begin{equation}
+    U_{z}(\theta)={\rm cos}\frac{\theta}{2}-i\sigma_{3}{\rm sin}\frac{\theta}{2}
+\end{equation}
+于是我们有$U(\theta+2\pi)={\rm cos}\frac{\theta+2\pi}{2}-i\sigma_{3}{\rm sin}\frac{\theta+2\pi}{2}={\rm cos}\frac{\theta}{2}+i\sigma_{3}{\rm sin}\frac{\theta}{2}$
+,因此与转动群$SO(3)$不同，$SU(2)$的作用在旋转$4\pi$后才会回到恒同映射，我们将其作用的对象(表示空间中的元素)称为旋量。
+\subsection{旋量}
+旋量到底是一个什么东西可能是一个令人困惑的问题，在这里我们也并不打算讨论最一般的情况，而是集中于简单的两分量旋量的情况，即一阶旋量，物理上也称为Weyl旋量，它在变换$U$下满足变换规则$\vec{s}\longrightarrow U\vec{s}$。两分量旋量$s$是具有特殊变换性质的两分量复向量，
+因此完全描述它需要四个独立参数，为了讨论的方便，我们利用参数组$(r,\theta,\phi,\alpha)$将各分量表示成类似于三维空间球坐标的形式
+\begin{equation}
+\label{chap4define}
+    \vec{s}=\left(\begin{array}{c}
+         a  \\
+          b
+    \end{array}\right)\doteq
+    \left(\begin{array}{c}
+         \sqrt{r}{\rm cos}(\theta/2)e^{i(-\alpha-\phi)/2}  \\
+          \sqrt{r}{\rm sin}(\theta/2)e^{i(-\alpha+\phi)/2} 
+    \end{array}\right)
+\end{equation}
+基于这一形式我们可以给两分量旋量一个几何图像。我们可以把一个二分量旋量看作一个三维空间的刷子，刷子柄可以当作普通三维空间里的向量，用球坐标$(r,\theta,\phi)$表示，注意旋量旋转$4\pi$才会回到原点的性质，$\theta$的对应存在一个2倍关系。另一个参数$\alpha$则可以看作刷子绕刷子柄所在轴线的旋转。
+
+今后为方便我们将一个两分量旋量写成
+\begin{equation}
+    \vec{s}=se^{-i\alpha/2}\left(\begin{array}{c}
+         {\rm cos}(\theta/2)e^{i(-\phi)/2}  \\
+          {\rm sin}(\theta/2)e^{i(\phi)/2}
+    \end{array}\right)
+\end{equation}
+其中$s=\sqrt{r}$。
+
+借助于(\ref{chap4define})我们可以表示出刷子柄在三维空间对应的坐标为
+\begin{equation}
+\label{chap4shuazi3D}
+    \begin{aligned}
+        r_{x}&=r{\rm sin}\theta{\rm cos}\phi=ab^{*}+ba^{*} \\ 
+        r_{y}&=r{\rm sin}\theta{\rm sin}\phi=i(ab^{*}-ba^{*}) \\ 
+        r_{z}&=r{\rm cos}\theta=|a|^{2}-|b|^{2} \\ 
+    \end{aligned}
+\end{equation}
+很快我们会看到，任意一个旋量可以同一个三维向量相对应，我们称这一三维向量的方向为旋量的方向。
+
+之前我们提到，两分量旋量具有特殊的变换性质，下面我们来考虑$SU(2)$群在旋量上的作用。下面我们将会从两个角度来证明，$SU(2)$对旋量的作用对应于旋量的旋转。
+
+首先我们注意到，对于旋量$\vec{s}$,(\ref{chap4shuazi3D})可以借助于Pauli矩阵重新写成
+\begin{equation}
+\label{chap4shuazi3DPauli}
+    \begin{aligned}
+        r_{x}&=\vec{s}^{\dagger}\sigma_{x}\vec{s} \\ 
+       r_{y}&=\vec{s}^{\dagger}\sigma_{y}\vec{s}  \\ 
+        r_{z}&=\vec{s}^{\dagger}\sigma_{z}\vec{s}  \\ 
+    \end{aligned}
+\end{equation}
+写成更紧凑的形式有
+\begin{equation}
+\label{chap4shuazi3Dpaulicompact}
+    \vec{r}=r_{x}=\vec{s}^{\dagger}\vec{\sigma}\vec{s}=\bra{s}\vec{\sigma}\ket{s} 
+\end{equation}
+这一形式具有普遍性，任意一个旋量可以通过这种形式对应到一个三维矢量。
+
+在(\ref{chap4U})中我们指出任意$SU(2)$中元素可以由Pauli矩阵的指数映射给出，因此考虑$SU(2)$群在旋量上的作用，只需要考虑下列三个特殊矩阵产生的效果。
+\begin{equation}
+    \begin{aligned}
+        S_{x}\left(\theta\right)&=e^{i\frac{\theta}{2}\sigma_{x}}={\rm cos}\frac{\theta}{2}I+i\sigma_{x}{\rm sin}\frac{\theta}{2}=\left(\begin{array}{cc}
+           {\rm cos}\frac{\theta}{2}  & i{\rm sin}\frac{\theta}{2} \\
+            i{\rm sin}\frac{\theta}{2} & {\rm cos}\frac{\theta}{2}
+        \end{array}\right)\\
+         S_{y}\left(\theta\right)&=e^{i\frac{\theta}{2}\sigma_{y}}={\rm cos}\frac{\theta}{2}I+i\sigma_{y}{\rm sin}\frac{\theta}{2}=\left(\begin{array}{cc}
+           {\rm cos}\frac{\theta}{2}  & {\rm sin}\frac{\theta}{2} \\
+            -{\rm sin}\frac{\theta}{2} & {\rm cos}\frac{\theta}{2}
+        \end{array}\right)\\
+         S_{z}\left(\theta\right)&=e^{i\frac{\theta}{2}\sigma_{z}}={\rm cos}\frac{\theta}{2}I+i\sigma_{z}{\rm sin}\frac{\theta}{2}=\left(\begin{array}{cc}
+           e^{i\frac{\theta}{2}}  & 0 \\
+           0 & e^{-i\frac{\theta}{2}} 
+        \end{array}\right)\\
+    \end{aligned}
+\end{equation}
+
+作为一个例子，我们考虑$\vec{s}'=S_{x}\vec{s}$,
+从而根据(\ref{chap4shuazi3Dpaulicompact}),其对应的三维向量为
+\begin{equation}
+    \vec{r}'=\bra{s'}\vec{\sigma}\ket{s'}=\bra{s}e^{-i\frac{\theta}{2}\sigma_{x}}\vec{\sigma}e^{i\frac{\theta}{2}\sigma_{x}}\ket{s}
+\end{equation}
+写成分量形式有
+\begin{equation}
+    \begin{aligned}
+        x'&=\bra{s}e^{-i\frac{\theta}{2}\sigma_{x}}\sigma_{x}e^{i\frac{\theta}{2}\sigma_{x}}\ket{s}\\
+        &=\bra{s}\sigma_{x}e^{-i\frac{\theta}{2}\sigma_{x}}e^{i\frac{\theta}{2}\sigma_{x}}\ket{s}\\
+        &=\bra{s}\sigma_{x}\ket{s}\\
+        &=x\\
+        y'&=\bra{s}e^{-i\frac{\theta}{2}\sigma_{x}}\sigma_{y}e^{i\frac{\theta}{2}\sigma_{x}}\ket{s}\\
+        &=\bra{s}\left(\text{cos}\frac{\theta}{2}I+i\sigma_{x}\text{sin}\frac{\theta}{2}\right)\sigma_{y}\left({\rm cos}\frac{\theta}{2}I+i\sigma_{x}{\rm sin}\frac{\theta}{2}\right)\ket{s}\\
+        &=\bra{s}\sigma_{y}(\text{cos}\theta+i\sigma_{x}\text{sin}\theta)\ket{s}\\
+        &=\text{cos}\theta\bra{s}\sigma_{y}\ket{s}+i\text{sin}\theta\bra{s}\sigma_{y}\sigma_{x}\ket{s}\\
+        &=y\text{cos}\theta+z\text{sin}\theta \\
+        z'&=\bra{s}e^{-i\frac{\theta}{2}\sigma_{x}}\sigma_{z}e^{i\frac{\theta}{2}\sigma_{x}}\ket{s}\\
+        &=\text{cos}\theta\bra{s}\sigma_{z}\ket{s}+i\text{sin}\theta\bra{s}\sigma_{z}\sigma_{x}\ket{s}\\
+         &=z\text{cos}\theta-y\text{sin}\theta \\
+    \end{aligned}
+\end{equation}
+从而我们得到
+\begin{equation}
+    \vec{r}'=R_{x}\left(\theta\right)\vec{r}
+\end{equation}
+其中
+\begin{equation}
+    R_{x}\left(\theta\right)=\left(
+    \begin{array}{ccc}
+         1&0&0  \\
+         0&\text{cos}\theta& \text{sin}\theta\\
+          0&\text{-sin}\theta& \text{cos}\theta\\
+    \end{array}
+    \right)
+\end{equation}
+是$SO(3)$中的元素。类似地我们可以得到$S_{y}\left(\theta\right),S_{z}\left(\theta\right)$分别对应$R_{y}\left(\theta\right),R_{z}\left(\theta\right)$，注意其中角度的二倍关系。我们在上一节中已经指出，$L_{i}$和$\sigma_{i}$分别是$SO(3)$和$SU(2)$的生成元，因此
+\begin{equation}
+\begin{aligned}
+    \Phi:SU(2)&\longrightarrow SO(3)\\
+    S=e^{i\vec{\sigma}\cdot\frac{\vec{\theta}}{2}}&\longrightarrow R=e^{i\vec{L}\cdot\vec{\theta}}
+    \end{aligned}
+\end{equation}
+构成了两群之间任意元素的对应关系。
+
+由于$SU(2)$群是$2\times2$矩阵，从而如果$U\in SU(2)$,那么$-U\in SU(2)$,从上面的推导过程我们可以发现$\{U,-U\}$都对应于同一个$SO(3)$中的元素，于是我们称$SU(2)$是$SO(3)$的一个二叠覆盖(double cover)。从李代数的角度来看，$SO(3)$同$SU(2)$结构的相似性可以从它们的生成元满足相似的对易关系看出。
+
+至此我们发现，$SU(2)$群对旋量的作用相当于$SO(3)$群对旋量所对应的矢量的作用，即$SU(2)$群转动了旋量$\vec{s}$的方向。上述对应也可以采用从矢量出发的另一种路径，这一种方法更容易推广，我们也把它列在下面。
+
+Step1.我们将一个三维向量$\vec{r}=(x,y,z)$对应到无迹厄米矩阵
+\begin{equation}
+\label{chap4step1}
+    X=\vec{r}\cdot\vec{\sigma}=x\sigma_{x}+y\sigma_{y}+z\sigma_{z}=\left(\begin{array}{cc}
+        z & x-iy \\
+        x+iy & -z
+    \end{array}\right)
+\end{equation}
+其行列式$\text{det}(X)=-(x^{2}+y^{2}+z^{2})=-|\vec{r}|^{2}$。
+我们定义$SU(2)$在无迹厄米矩阵上的作用为
+\begin{equation}
+    X'=T_{U}(X)=UXU^{\dagger}
+\end{equation}
+显然$X'$仍然是厄米无迹矩阵，由于Pauli矩阵构成$SU(2)$群的一组基，从而有
+\begin{equation}
+    X'=\vec{r}\cdot\vec{\sigma}=x'\sigma_{x}+y'\sigma_{y}+z'\sigma_{z}
+\end{equation}
+由于$\text{det}X'=\text{det}(UXU^{\dagger})=\text{det}(U^{\dagger}UX)=\text{det}X$,从而$\vec{r}\longrightarrow \vec{r}'$保持模不变，从而$T_{U}$对$\vec{r}$的变换效果只能是旋转或反射变换的复合，我们考察$U_{z}=e^{i\frac{\theta}{2}\sigma_{z}}$,通过计算可知
+\begin{equation}
+    T_{U_{z}}=e^{i\frac{\theta}{2}\sigma_{z}}Xe^{-i\frac{\theta}{2}\sigma_{z}}=\left(
+    \begin{array}{cc}
+        z & e^{i\theta}(x-iy) \\
+        e^{-i\theta}(x+iy) & z
+    \end{array}\right)
+\end{equation}
+从而我们有
+\begin{equation}
+    \begin{aligned}
+    x'&=x\text{cos}\theta+y\text{sin}\theta\\
+     y'&=-x\text{sin}\theta+y\text{cos}\theta\\
+     z'&=z
+    \end{aligned}
+\end{equation}
+类似地我们可以验证其他分量的情况，从而我们可以得知$T_{U}$对$X$所对应的三维向量的效果是转动。
+
+Step2.我们将一个无迹厄米矩阵对应到两分量旋量。事实上，我们下面将要证明，任何一个旋量$\vec{s}$都是一个无迹厄米矩阵$S$的特征值为1的特征向量。我们采用构造性的证明。由于我们要求$S$是厄米的，从而由高代中熟知的结论我们知道$S$的特征值为实数且不同特征值的特征向量正交，此外，我们知道厄米矩阵所有的特征向量组成了一组基。倘若
+\begin{equation}
+    \vec{s}=\left(\begin{array}{c}
+         a  \\
+         b 
+    \end{array}\right)
+\end{equation}
+是$S$特征值为1的特征向量，则我们应该有与之正交的矢量
+\begin{equation}
+    \vec{s'}=\left(\begin{array}{c}
+         -b^{*}  \\
+         a^{*} 
+    \end{array}\right)
+\end{equation}
+为$S$的另一特征向量，且特征值为$-1$,事实上，如果$\vec{s}'$的特征值也为1，我们记矩阵
+\begin{equation}
+    V=\frac{1}{|\vec{s}|}\left(\begin{array}{cc}
+        \vec{s} &  \vec{s}'\\
+    \end{array}\right)
+    =\frac{1}{|\vec{s}|}
+    \left(\begin{array}{cc}
+        a &  -b^{*}\\
+        b & a^{*}
+    \end{array}\right)
+\end{equation}
+则有
+\begin{equation}
+    SV=VI
+\end{equation}
+由于$S$的所有特征向量构成一组基，则$V$可逆，从而$S=I$，矛盾。
+
+于是$S$有两个特征向量分别对应特征值为$\pm 1$,可以写成
+\begin{equation}
+    SV=V\sigma_{z}
+\end{equation}
+从中解得\footnote{容易证明，最终结果$S$与在构造$V$时$\vec{s}$和$\vec{s}'$的排列次序无关}
+\begin{equation}
+    S=V\sigma_{z}V^{\dagger}=\frac{1}{s^{2}}\left(
+    \begin{array}{cc}
+       |a|^{2}-|b|^{2}  & 2ab^{*} \\
+        2ba^{*} & |b|^{2}-|a|^{2}
+    \end{array}\right)=\frac{1}{|r|}\left(
+    \begin{array}{cc}
+       r_{z}  & r_{x}-ir_{y} \\
+        r_{x}+ir_{y} & -r_{z}
+    \end{array}\right)=\vec{n}\cdot\vec{\sigma}
+\end{equation}
+其中利用了(\ref{chap4shuazi3D}),并采用记号$\vec{n}=\frac{1}{|r|}\left(r_{x},r_{y},r_{z}\right)=\frac{\bra{s}\vec{\sigma}\ket{s}}{s^{2}}$。$S$以$\vec{s}$为特征向量，且特征值为1，由证明过程可以看出$S$的选择是唯一的。同(\ref{chap4step1})相比较，可以得知$S$所对应的三维向量的方向$\vec{n}$即为旋量$\vec{s}$的方向，即三维矢量可以对应到一个相同方向的旋量。
+
+换句话说，我们证明了，对于任意单位向量$\vec{n}$，存在唯一无迹厄米矩阵$X=\vec{n}\cdot\vec{\sigma}$，满足$X$有一个特征值为1的特征向量，这是一个旋量，其方向与$\vec{n}$相同。
+
+现在我们再来讨论旋量的变换的问题。对于$U\in SU(2)$，我们有$\vec{s}'=U\vec{s}$,注意到
+\begin{equation}
+    (USU^{\dagger})\vec{s}'=(USU^{\dagger})U\vec{s}=US\vec{s}=U\vec{s}=\vec{s}'
+\end{equation}
+其中$S$为$\vec{s}$所对应的厄米矩阵。于是我们有
+\begin{equation}
+    S'=USU^{\dagger}
+\end{equation}
+根据我们在Step1中的讨论，这对应着$S$对应的三维向量$\vec{r}$的转动,从而对应着旋量$\vec{s}$的方向的转动。
+
+上面我们用两种方式讨论了旋量的空间变换，下面我们将上述讨论推广到boost。
+我们考虑厄米矩阵(此时不再要求无迹)
+\begin{equation}
+    X=tI+x\sigma_{x}+y\sigma_{y}+z\sigma_{z}=\left(\begin{array}{cc}
+        t+z &x-iy  \\
+        x+iy & t-z
+    \end{array}\right)
+\end{equation}
+其行列式满足$\text{det}X=t^{2}-x^{2}-y^{2}-z^{2}$,这恰好是四矢量$(t,\vec{r})$的长度。由于我们不要求迹具有不变性，从而我们考虑行列式为1的复矩阵$U\in SL(2,\mathbb{C})$，并考虑变换
+\begin{equation}
+    T_{U}(X)=UXU^{\dagger}
+\end{equation}
+显然变换前后$\text{det}X$是不变量。
+容易验证$SL(2,\mathbb{C})$的一组生成元为$\sigma_{i},-i\sigma_{i}$,其中空间部分我们已经在前面处理过，对于boost部分(记作$B_{i}$)，我们考虑一个例子
+\begin{equation}
+    B_{z}=e^{-i\frac{\beta}{2}(-i\sigma_{z})}=e^{-\frac{\beta}{2}\sigma_{z}}=\left(\begin{array}{cc}
+       e^{-\frac{\beta}{2}}  & 0 \\
+         0& e^{\frac{\beta}{2}} 
+    \end{array}\right)=\text{cosh}(\beta)I-\sigma_{z}\text{sinh}\beta
+\end{equation}
+考虑$T_{B_{z}}$,计算可得，在这一变化下，$X'$对应的四矢量$r'$满足$\vec{r}'=K_{z}r$,其中
+\begin{equation}
+    K_{z}=\left(\begin{array}{cccc}
+         \text{cosh}\beta&0&0&-\text{sinh}\beta  \\
+         0&1&0&0\\
+         0&0&1&0\\
+         -\text{sinh}\beta&0&0&\text{cosh}\beta
+    \end{array}\right)
+\end{equation}
+类似可以验证其他两个方向的boost。与空间部分相类似，$SL(2,\mathbb{C})$构成了Lorentz群的一个二叠映射。
+于是我们可以将旋量的空间转动和boost统一写成
+\begin{equation}
+\label{chap4SL2}
+    U=e^{i\frac{\vec{\theta}\cdot\vec{\sigma}}{2}-\frac{\vec{\beta}\cdot\vec{\sigma}}{2}}
+\end{equation}
+$U$是$SL(2,\mathbb{C})$中的元素。顺便一提，按$X\longrightarrow UXU^{\dagger}$变换的旋量称为2阶旋量，我们上面的讨论表明，二阶旋量与矢量有相同的变换规则。
+\subsection{Lorentz群的旋量表示}
+首先来讨论Lorentz群的李代数。我们需要知道Lorentz群生成元(\ref{Lorentzgenerator})的对易关系。考虑到Lorentz群的各种表示要满足相同的对易关系，因此我们可以通过Lorentz群的任意一个表示来得到普遍的对易关系。下面来考虑作用到函数空间上的无穷维表示。对于转动群，角动量算符为$\vec{J}=\vec{x}\times\vec{p}=\vec{x}\times(-i\nabla)$,我们可以定义
+\begin{equation}
+    J^{ij}=-i(x^{i}\nabla^{j}-x^{j}\nabla^{i})
+\end{equation}
+这样我们可以恢复角动量算符的定义$J^{3}=J^{12}(cyc.)$。从这一形式出发，我们可以很自然地推广到四维的情况
+\begin{equation}
+    J^{\mu\nu}=i(x^{\mu}\partial^{\nu}-x^{\nu}\partial^{\mu})
+\end{equation}
+这样我们得到了6个独立的生成元，当$\mu,\nu=1,2,3$时，我们恢复了三维转动的生成元，当$\mu,\nu$有一个等于0时，我们得到了boost的生成元。直接计算可以得到表示空间为无穷维的Lorentz群表示的生成元的对易关系为
+\begin{equation}
+\label{chap4commurela}
+    \left[J^{\mu\nu},J^{\rho\sigma}\right]=i(g^{\nu\rho}J^{\mu\sigma}-g^{\mu\rho}J^{\nu\sigma}-g^{\nu\sigma}J^{\mu\rho}+g^{\mu\sigma}J^{\nu\rho})
+\end{equation}
+
+利用这一生成元，我们可以用6个实参数来描述Lorentz变换
+\begin{equation}
+    \Lambda^{\alpha}_{\;\;\beta}=\left[e^{-\frac{i}{2}\omega_{\mu\nu}J^{\mu\nu}}\right]^{\alpha}_{\;\;\beta}
+\end{equation}
+其中$\Lambda^{\alpha}_{\;\;\beta}$及$J^{\mu\nu}$满足的对易关系的形式 不仅仅局限于无穷维Lorentz群表示的情况，也可以适用于有限维表示。
+对于Lorentz群的一个有限维表示$M(\Lambda)$,场$\Phi$按Lorentz群变换的性质可以表示为
+\begin{equation}
+    \Phi \xrightarrow{\Lambda} \Phi'=M(\Lambda)\Phi
+\end{equation}
+对于矢量表示，当$\Lambda$的参数变化$2\pi$时，得到相同的变换，对于旋量表示，则需要变化$4\pi$才可以回到原来的表示。根据我们上一节中的讨论，1阶旋量按$SL(2,\mathbb{C})$中的元素进行变换。
+
+首先，作为一个例子，我们来考虑一组$4\times4$矩阵\footnote{$g^{\mu}_{\;\;\nu}=g^{\mu\alpha}g_{\alpha\nu}=\delta^{\mu}_{\;\;\nu}$}
+\begin{equation}
+\label{chap4vectorgene}
+    \left[J^{\mu\nu}\right]_{\alpha\beta}=i\left(\delta^{\mu}_{\;\;\alpha}\delta^{\nu}_{\;\;\beta}-\delta^{\mu}_{\;\;\beta}\delta^{\nu}_{\;\;\alpha}\right)
+\end{equation}
+容易验证，这组矩阵满足对易关系(\ref{chap4commurela})，而且$J^{\mu\nu}$是反对称的\footnote{这并不是一个巧合。事实上，考虑无穷小变换($\omega_{\mu\nu}$是参数)，有$\Lambda^{\alpha}_{\;\;\beta}=\delta^{\alpha}_{\;\;\beta}-\frac{i}{2}\omega_{\mu\nu}\left[J^{\mu\nu}\right]^{\alpha}_{\;\;\beta}+o(\omega^{2})$,代入Lorentz变换的要求$ g_{\mu\nu}\Lambda^{\mu}_{\;\;\rho}\Lambda^{\nu}_{\;\;\sigma}=g_{\rho\sigma}$,并考虑到$\omega_{\mu\nu}$的任意性可以得到结论。随后利用$J^{\mu\nu}$的反对称性，可以发现$\omega_{\mu\nu}$中的对称部分不会对求和$\omega_{\mu\nu}J^{\mu\nu}$产生影响，从而不妨设$\omega_{\mu\nu}$也是反对称的张量。}。。这是Lorentz群矢量表示的生成元，事实上，我们考虑无穷小变换对于四矢量的作用
+\begin{equation}
+\label{chap4examp}
+    V^{\alpha}\longrightarrow \left(\delta^{\alpha}_{\;\;\beta}-\frac{i}{2}\omega_{\mu\nu}\left[J^{\mu\nu}\right]^{\alpha}_{\;\;\beta}\right)V^{\beta}
+\end{equation}
+可以验证这是四矢量在Lorentz变换下的行为的无穷小形式,例如，取$\omega_{12}=-\omega_{21}=\theta$,其余参数为0，则(\ref{chap4examp})的矩阵形式为
+\begin{equation}
+    V\longrightarrow \left(\begin{array}{cccc}
+        1&0 &0 &0 \\
+          0&1 &-\theta &0\\
+           0&\theta &1 &0\\
+            0&0 &0 &1
+    \end{array}\right)V
+\end{equation}
+这是绕$z$轴作空间旋转的矩阵的无穷小形式，取$\omega_{01}=-\omega_{10}=\beta$,其余参数为0，则(\ref{chap4examp})的矩阵形式为
+\begin{equation}
+    V\longrightarrow \left(\begin{array}{cccc}
+        1&\beta &0 &0 \\
+          \beta&1 &0 &0\\
+           0&0 &1 &0\\
+            0&0 &0 &1
+    \end{array}\right)V
+\end{equation}
+这是沿$x$轴方向的boost的无穷小形式，类似地我们可以得到其他参数组合的结果，这样就证明了我们给出的矩阵构成了Lorentz群矢量表示的生成元。
+
+如果我们要构造Lorentz群的一个旋量表示，我们需要显式地构造出满足(\ref{chap4commurela})的生成元$J^{\mu\nu}$,在构造过程中我们要求$J^{\mu\nu}=-J^{\nu\mu}$
+假设存在四个$n\times n$方阵$\gamma^{\mu}$,$\mu=0,1,2,3$,满足
+\begin{equation}
+\label{chap4condition}
+    \left\{\gamma^{\mu},\gamma^{\nu}\right\}=2g^{\mu\nu}I
+\end{equation}
+利用满足这一关系的gamma矩阵我们可以构造
+\begin{equation}
+    S^{\mu\nu}=\frac{i}{4}\left[\gamma^{\mu},\gamma^{\nu}\right]
+\end{equation}
+通过构造我们立马可以得出$S^{\mu\nu}$是反对称的。
+经过简单的计算，我们有
+\begin{equation}
+    \left[S^{\mu\nu},S^{\rho\sigma}\right]=i(g^{\nu\rho}S^{\mu\sigma}-g^{\mu\rho}S^{\nu\sigma}-g^{\nu\sigma}S^{\mu\rho}+g^{\mu\sigma}S^{\nu\rho})
+\end{equation}
+这与(\ref{chap4commurela})形式相同\footnote{我们称$\gamma^{\mu}$构成的代数为Dirac代数，这是一个16维的代数(一组可能的基底包括$I$,$\gamma^{\mu}$,以及gamma矩阵的线性无关乘积$\gamma^{\mu}\gamma^{\nu},\;\gamma^{\mu}\gamma^{\nu}\gamma^{\rho},\;\gamma^{\mu}\gamma^{\nu}\gamma^{\rho}\gamma^{\sigma}$)。}，于是$S^{\mu\nu}$构成了Lorentz群李代数的一组生成元。下面的问题便是寻找满足(\ref{chap4condition})的一组$n\times n$矩阵。与在第一章的论证类似，我们可以说明不存在$2\times 2$矩阵满足条件。但是如果我们取$\gamma^{i}=i\sigma^{i}$，可以验证有
+$\left\{\gamma^{i},\gamma^{j}\right\}=-2\delta^{ij}$，等式右边恰好是度规张量的空间部分，这启示我们应该从Pauli矩阵出发试图构建满足条件的gamma矩阵。一个聪明的想法是考虑$n=4$的情况，令
+\begin{equation}
+\label{chap4weyl}
+    \begin{aligned}
+    \gamma^{0}=\left(\begin{array}{cc}
+       0  & I_{2} \\
+       I_{2}  & 0
+    \end{array}\right),\quad
+    \gamma^{i}=\left(\begin{array}{cc}
+       0  & \sigma^{i} \\
+       -\sigma^{i}  & 0
+    \end{array}\right)
+    \end{aligned}
+\end{equation}
+容易验证这满足反对易条件(\ref{chap4condition})，我们称(\ref{chap4weyl})中写出的Lorentz群表示为手征Weyl表示。事实上，在四维情况下，上述选取并不是唯一的，对于任意可逆矩阵，我们有定义$\tilde{\gamma}^{\mu}=U\gamma^{\mu} U^{-1}$,
+则有
+\begin{equation}
+    \left\{\tilde{\gamma}^{\mu},\tilde{\gamma}^{\nu}\right\}=U\left\{\gamma^{\mu},\gamma^{\nu}\right\} U^{-1}=g^{\mu\nu}UIU^{-1}=g^{\mu\nu}
+\end{equation}
+我们选用的手征Weyl表示在处理高能粒子($|\vec{v}|\sim 1$,$\;E\gg m_{0}$)时会带来方便，也是这门课中我们所选用的表示。除此之外，还有其他两种常用表示。
+
+Dirac-Pauli表示：
+\begin{equation}
+\label{chap4dirac}
+    \begin{aligned}
+    \gamma^{0}=\left(\begin{array}{cc}
+        I_{2}&0 \\
+       0&-I_{2} 
+    \end{array}\right),\quad
+    \gamma^{i}=\left(\begin{array}{cc}
+       0  & \sigma^{i} \\
+       -\sigma^{i}  & 0
+    \end{array}\right)
+    \end{aligned}
+\end{equation}
+这一表示在处理非相对论性($|\vec{v}|\ll,\;E\sim m_{0}$ )粒子时比较方便\footnote{这也是Dirac在提出Dirac方程时使用的表示}。
+
+Majorana表示：
+\begin{equation}
+\label{chap4Majorana}
+    \begin{aligned}
+    \gamma^{0}&=\left(\begin{array}{cc}
+        0&\sigma_{2} \\
+       \sigma_{2}&0 
+    \end{array}\right),\quad
+    \gamma^{1}=\left(\begin{array}{cc}
+        i\sigma^{3}&0 \\
+         0&i\sigma^{3} 
+    \end{array}\right)\\
+    \gamma^{2}&=\left(\begin{array}{cc}
+        0&-\sigma_{2} \\
+       \sigma_{2}&0 
+    \end{array}\right),\quad
+    \gamma^{3}=\left(\begin{array}{cc}
+        -i\sigma^{1}&0 \\
+         0&-i\sigma^{1} 
+    \end{array}\right)\\
+    \end{aligned}
+\end{equation}
+这一表示中每个矩阵都是纯虚数矩阵，在处理Majorana费米子时比较方便。这是一种电中性费米子，其反粒子是自身。目前人们猜测中微子可能是一种Majorana费米子(当然也可能是一种Dirac费米子)。
+
+事实上，对于绝大多数物理量而言，gamma的具体形式并不会影响最后的结果，尤其是对于可观测的物理量而言，我们出于计算的方便而选取的具体的形式不应该对可观测量的计算结果有影响。
+
+直接从Dirac代数的对易关系出发，我们有
+\begin{equation}
+\label{chap4dirac11}
+    \begin{aligned}
+       (\gamma^{0})^{2}&=I\\
+          (\gamma^{i})^{2}&=-I
+       \end{aligned}
+\end{equation}
+从Weyl表示出发，我们有以下结论\footnote{这一结论并不能从Dirac代数的对易关系直接得到，事实上，之前我们已经证明，在相似变换下不改变对易关系，而幺正性在相似变换下并不会被保持。当然(\ref{chap4hermi})不依赖于具体的表示，不过这一点的证明比较复杂，需要用到gamma矩阵的幺正性，而这依赖于群表示论中的结论：有限群的任意有限维表示$D(g)$等价于一个幺正的有限维表示$D'(g)$，即存在一个不依赖于群元$g$的可逆矩阵$S$,使得$D'(g)=SD(g)S^{-1}$为幺正矩阵。注意到所有的gamma矩阵在矩阵乘法下生成了一个有限群，从而我们总是可以人为选取一组幺正的gamma矩阵，从而有$(\gamma^{\mu})^{\dagger}=(\gamma^{\mu})^{-1}$,之后利用(\ref{chap4dirac11})可得结论。}
+\begin{equation}
+\label{chap4hermi}
+    \begin{aligned}
+    \left.\begin{array}{cc}
+         (\gamma^{0})^{\dagger}=\gamma^{0}\\
+          (\gamma^{i})^{\dagger}=-\gamma^{i}\\
+    \end{array}\right\}&(\gamma^{\mu})^{\dagger}=\gamma^{0}\gamma^{\mu}\gamma^{0}\\
+       \end{aligned}
+\end{equation}
+为方便，我们写出Weyl表象下旋量表示生成元的形式。
+\begin{equation}
+    \begin{aligned}
+    S^{ij}=\frac{i}{4}\left[\gamma^{i},\gamma^{j}\right]=\frac{1}{2}\epsilon^{ijk}\left(\begin{array}{cc}
+      \sigma^{k}   &0  \\
+       0  & \sigma^{k}
+    \end{array}\right)\doteq \frac{1}{2}\epsilon^{ijk}\Sigma^{k}\\
+    S^{0i}=\frac{i}{4}\left[\gamma^{0},\gamma^{i}\right]=-\frac{i}{2}\left(\begin{array}{cc}
+      \sigma^{i}   &0  \\
+       0  & -\sigma^{i}
+    \end{array}\right)
+    \end{aligned}
+\end{equation}
+我们看到空间部分和boost生成元都是分块对角矩阵，这暗示我们将要引入的Dirac场的前两个分量会发生混合，后两个分量也会发生混合，但是它们之间是相互独立的。换句话说，Dirac场$\psi$是两个1阶旋量直积生成的\footnote{用表示论的语言来描述，Dirac旋量表示是Lorentz群的一个可约表示，直观来说，这意味着每一个群元素对应的矩阵$D(g)$都可以以相同的形式同时分块对角，从而一个有限维可约表示可以由多个不可约表示直和形成。可以证明Weyl旋量表示是不可约的。}，记为
+\begin{equation}
+   \psi=\left(\begin{array}{cc}
+        \chi_{L}  \\
+         \phi_{R}
+   \end{array}\right) 
+\end{equation}
+我们称$\phi_{R}$为右手分量，称$\chi_{R}$为左手分量，其名称的意义将在后面看到。
+同样在后面会看到，这构成了Lorentz群的一个可约表示。
+
+利用生成元，我们可以写出旋量表示对应的矩阵
+\begin{equation}
+\label{chap4spinor}
+    \Lambda_{\frac{1}{2}}=e^{-\frac{i}{2}\omega_{\mu\nu}S^{\mu\nu}}
+\end{equation}
+
+可以证明，旋量表示满足下列对易关系\footnote{证明过程中你可能会用到$\left[A,\left[B,C\right]\right]=\left\{A,B\right\}C+C\left\{A,B\right\}-B\left\{A,C\right\}-\left\{A,C\right\}B$}。
+\begin{equation}
+\begin{aligned}
+   \left[\gamma^{\sigma},S^{\mu\nu}\right] &=i(g^{\sigma\mu}\gamma^{\nu}-g^{\sigma\nu}\gamma^{\mu})\\
+   &=i(g^{\sigma\mu}g^{\nu}_{\;\;\alpha}-g^{\sigma\nu}g^{\mu}_{\;\;\alpha})\gamma^{\alpha}\\
+   &=\left[J^{\mu\nu}\right]^{\sigma}_{\;\;\alpha}\gamma^{\alpha}
+   \end{aligned}
+\end{equation}
+其中$\left[J^{\mu]nu}\right]$是(\ref{chap4vectorgene})中的矢量表示生成元。
+利用这一对易关系我们可以得到下列重要的结论
+\begin{equation}
+\label{chap4spinorimpor}
+    \Lambda_{\frac{1}{2}}^{-1}\gamma^{\sigma}\Lambda_{\frac{1}{2}}=\Lambda^{\sigma}_{\;\;\rho}\gamma^{\rho}
+\end{equation}
+事实上，考虑无穷小变换
+\begin{equation}
+\label{chap4lambda12}
+    \Lambda_{\frac{1}{2}}=1-\frac{i}{2}\omega_{\mu\nu}S^{\mu\nu}+o(\omega^{2})
+\end{equation}
+代入(\ref{chap4lambda12})左边我们有
+\begin{equation}
+    \begin{aligned}
+    &(1+\frac{i}{2}\omega_{\mu\nu}S^{\mu\nu})\gamma^{\sigma}(1-\frac{i}{2}\omega_{\mu\nu}S^{\mu\nu})\\
+    =&\gamma^{\sigma}-\frac{i}{2}\omega_{\mu\nu}\left[\gamma^{\sigma},S^{\mu\nu}\right]\\
+    =&\gamma^{\sigma}-\frac{i}{2}\omega_{\mu\nu}\left[J^{\mu\nu}\right]^{\sigma}_{\;\;\alpha}\gamma^{\alpha}\\
+    =&(g^{\sigma}_{\;\;\rho}-\frac{i}{2}\omega_{\mu\nu}\left[J^{\mu\nu}\right]^{\sigma}_{\;\;\alpha}g^{\alpha}_{\;\;\rho})\gamma^{\rho}\\
+    =&\left(1-\frac{i}{2}\omega_{\mu\nu}J^{\mu\nu}\right)^{\sigma}_{\;\;\rho}\gamma^{\rho}\\
+    =&\Lambda^{\sigma}_{\;\;\rho}\gamma^{\rho}
+    \end{aligned}
+\end{equation}
+这就在单位元邻域内证明了结论。
+归纳可知
+\begin{equation}
+    \left(\Lambda_{\frac{1}{2}}^{-1}\right)^{n}\gamma^{\sigma}\left(\Lambda_{\frac{1}{2}}\right)^{n}=\left(\Lambda^{n}\right)^{\sigma}_{\;\;\rho}\gamma^{\rho}
+\end{equation}
+从而对于有限的$\omega_{\mu\nu}$，结论依然成立。在下一节中我们将利用这一结论证明Dirac方程的Lorentz不变性。
+\section{Dirac方程的构造}
+在第一章中，我们从相对论性量子力学出发得到了Dirac方程，那里的波函数$\psi$具有几率诠释。现在我们从经典场论的出发，根据对称性来重新构造Dirac方程，这样得到的方程具有完全不同的物理诠释。
+考虑场$\psi$按旋量表示(\ref{chap4spinor})变换，即有
+\begin{equation}
+\psi(x) \xrightarrow{x'=\Lambda x} \psi'(x)=\Lambda_{\frac{1}{2}}\psi(\Lambda^{-1}x)
+\end{equation}
+上面我们在同一个坐标点写出了变换后场的形式。我们称满足这样变换关系的场为旋量场，也称为Dirac场。注意$\Lambda$和$\Lambda_{\frac{1}{2}}$均为$4\times 4$矩阵，但是含义不同，前者作用的空间是四维时空，后者作用的空间是$\psi=(\psi_{1},\psi_{2},\psi_{3},\psi_{4})^{\top}$四个分量构成的内禀空间。
+
+与矢量情况下类似，我们考虑旋量表示的某一个分量的变换，来获得旋量在Lorentz变换下的直接的印象。在(\ref{chap4spinor})中取$\omega_{12}=-\omega_{21}=\theta_{z}$,其他分量为0，我们有
+\begin{equation}
+\label{chap4exam3}
+    \Lambda_{\frac{1}{2}}=e^{-\frac{i}{2}\omega_{12}S^{12}-\frac{i}{2}\omega_{21}S^{21}}=e^{-i\theta_{z} S^{12}}=\left(\begin{array}{cc}
+       e^{-\frac{i}{2}\theta_{z}\sigma_{3}}  &0  \\
+        0 & e^{-\frac{i}{2}\theta_{z}\sigma_{3}} 
+    \end{array}\right)
+\end{equation}
+其中$e^{-\frac{i}{2}\theta_{z}\sigma_{3}}$是我们在(\ref{chap4SL2})中给出的一阶旋量的变换矩阵，由此可见，此时$\Lambda_{\frac{1}{2}}$分别对Dirac场右手分量和左手分量做变换。从(\ref{chap4exam3})我们可以看出，$\Lambda_{\frac{1}{2}}(2\pi)=-I=\Lambda_{\frac{1}{2}}(0)$，这再一次表明了旋量不同于四矢量的变换规则。
+
+下面来构造Dirc场的Lagrangian。
+
+因为我们要求$\mathcal{L}$为Lorentz标量，所以我们需要了解构建Lagrangian的各元素的变换规则。从我们在标量场的经验我们猜测$\psi^{\dagger}\psi$是可能的Lorentz标量的候选，不过事实并非如此，$\psi^{\dagger}\psi \rightarrow \psi^{\dagger}\Lambda_{\frac{1}{2}}^{\dagger}\Lambda_{\frac{1}{2}}\psi $，而$\Lambda_{\frac{1}{2}}$并非是幺正矩阵\footnote{由于Lorentz群不是紧致的，从而其不存在忠实的有限维幺正表示。事实上，三维转动群是紧群，从而生成元$S^{ij}$是厄米的，其对应的$\Lambda_{\frac{1}{2}}$是幺正矩阵；而boost生成元$S^{0i}$是反厄米的，其对应的$\Lambda_{\frac{1}{2}}$不是幺正矩阵。通常而言，在量子力学中我们要求对称性所对应的算符是幺正的，以保持几率守恒，注意这里$\Lambda_{\frac{1}{2}}$的非幺正性不会产生物理上的困难，因为其作用的对象是经典Dirac场而不是物理态，从而不存在几率诠释。后面我们会看到，Lorentz群存在幺正的无穷维表示，从而其作用在量子态所在的无穷维Hilbert空间上时，不存在幺正性的困难。}，从而$\psi^{\dagger}\psi$不是Lorentz不变量。如果我们定义
+\begin{equation}
+    \overline{\psi}=\psi^{\dagger}\gamma^{0}
+\end{equation}
+下面将会证明$\overline{\psi}\psi$是Lorentz标量。
+
+利用(\ref{chap4hermi})我们有$\gamma^{0}(S^{\mu\nu})^{\dagger}\gamma^{0}=S^{\mu\nu}$,随即我们有
+\begin{equation}
+    \gamma^{0}(\Lambda_{\frac{1}{2}})^{\dagger}\gamma^{0}=\Lambda_{\frac{1}{2}}^{-1}
+\end{equation}
+于是
+\begin{equation}
+    \begin{aligned}
+        \overline{\psi}\psi&\rightarrow \psi'^{\dagger}\gamma^{0}\psi'\\
+        &=\psi^{\dagger}\Lambda_{\frac{1}{2}}^{\dagger}\gamma^{0}\Lambda_{\frac{1}{2}}\psi\\
+        &=\psi^{\dagger}\gamma^{0}\Lambda_{\frac{1}{2}}^{-1}\Lambda_{\frac{1}{2}}\psi\\
+        &=\overline{\psi}\psi
+    \end{aligned}
+\end{equation}
+
+下面我们试图构造Lorentz不变的导数项。
+注意到
+\begin{equation}
+    \overline{\psi}\gamma^{\mu}\psi\xlongrightarrow{\Lambda}\overline{\psi}\Lambda_{\frac{1}{2}}^{-1}\gamma^{\mu}\Lambda_{\frac{1}{2}}\psi=\Lambda^{\mu}_{\;\;\nu}\overline{\psi}\gamma^{\nu}\psi
+\end{equation}
+其中利用了(\ref{chap4spinorimpor})。其变换规则相当于一个矢量场，类比我们之前处理矢量场的经验，我们可以证明
+\begin{equation}
+    \overline{\psi}\gamma^{\mu}\partial_{\mu}\psi
+\end{equation}
+是一个Lorentz标量。
+
+综上，我们可以写出Dirac场的Lagrangian
+\begin{equation}
+    \mathcal{L}_{Dirac}=\overline{\psi}\left(i\gamma^{\mu}\partial_{\mu}-m \right)\psi
+\end{equation}
+其中$i$因子是因为我们要求Lagrangian在相差一个全微分的意义下满足$\mathcal{L}^{\dagger}=\mathcal{L}$。
+
+我们将$\psi$和$\overline{\psi}(\text{或}\psi^{\dagger})$看作独立的自由度，利用E-L方程可以得到Dirac方程
+\begin{equation}
+\label{chap4Diracdouble}
+    \begin{aligned}
+        (i\gamma^{\mu}\partial_{\mu,x}-m)\psi(x)&=0\\
+        -i\partial_{\mu}\overline{\psi}\gamma^{\mu}-m\overline{\psi}=0
+    \end{aligned}
+\end{equation}
+上面两个式子并不是独立的，将第二个取共轭转置再右乘$\gamma^{0}$后可以得到第一个。
+有时我们也会将第二式写成
+\begin{equation}
+    -\overline{\psi}(i\overleftarrow{\partial}_{\mu}\gamma^{\mu}+m)=0
+\end{equation}
+其中的箭头提示偏导数作用到左侧的$\overline{\psi}$上。利用类似的记号，我们可以将$\mathcal{L}_{Dirac}$写成下列相差一个全微分的等价形式
+\begin{equation}
+    \mathcal{L'}_{Dirac}=\overline{\psi}\left(i\gamma^{\mu}\frac{1}{2}\overleftrightarrow{\partial}_{\mu}-m \right)\psi
+\end{equation}
+其中$A\overleftrightarrow{\partial}B=A\partial B-\left(\partial A\right) B$
+
+下面来讨论Dirac方程的Lorentz不变性。对于变换后的Dirac场$\psi'(x)$，我们有
+\begin{equation}
+\begin{aligned}
+    (i\gamma^{\mu}\partial_{\mu,x}-m)\psi'(x)&=(i\gamma^{\mu}\partial_{\mu,x}-m)\Lambda_{\frac{1}{2}}\psi(\Lambda^{-1}x)\\
+    &=\left[i\gamma^{\mu}(\Lambda^{-1})^{\nu}_{\;\;\mu}\partial_{\nu,y}-m\right]\Lambda_{\frac{1}{2}}\psi(y)\\
+    &=\Lambda_{\frac{1}{2}}\left[i(\Lambda^{-1})^{\nu}_{\;\;\mu}\Lambda_{\frac{1}{2}}^{-1}\gamma^{\mu}\Lambda_{\frac{1}{2}}\partial_{\nu,y}-m\right]\psi(y)\\
+    &=\Lambda_{\frac{1}{2}}\left[i(\Lambda^{-1})^{\nu}_{\;\;\mu}\Lambda^{\mu}_{\;\;\beta}\gamma^{\beta}\partial_{\nu,y}-m\right]\psi(y)\\
+    &=\Lambda_{\frac{1}{2}} (i\gamma^{\mu}\partial_{\mu,y}-m)\psi(y)\\
+    &=0
+    \end{aligned}
+\end{equation}
+至此我们证明了Dirac方程的Lorentz不变性。
+
+之前我们已经指出，Dirac场可以写成左手Weyl旋量$\chi_{L}$和右手Weyl旋量$\phi_{R}$的直和，在变换$\Lambda_{\frac{1}{2}}$下，左右手旋量的变换是相互独立的，我们将(\ref{chap4spinor})写成无穷小形式有
+\begin{equation}
+    \begin{aligned}
+            \chi_{L}&\longrightarrow \left(1-i\vec{\theta}\cdot \frac{\vec{\sigma}}{2}-\vec{\beta}\cdot \frac{\vec{\sigma}}{2}\right)\chi_{L}\\
+        \phi_{R}&\longrightarrow \left(1-i\vec{\theta}\cdot \frac{\vec{\sigma}}{2}+\vec{\beta}\cdot \frac{\vec{\sigma}}{2}\right)\phi_{R}
+    \end{aligned}
+\end{equation}
+其中$\vec{\theta},\;\vec{\beta}$分别代表空间转动和boost的三个参数。我们将这种左右手分量性质不同的现象称为手征性(Chirality)。可以证明，在Lorentz变换下，$\sigma_{2}\chi_{L}^{*}$按右手旋量的方式变换，因此我们可以只用左手场构造Dirac旋量
+\begin{equation}
+    \psi=\left(\begin{array}{cc}
+         \chi_{L}  \\
+         \sigma_{2}\chi_{L}^{*} 
+    \end{array}\right)
+\end{equation}
+
+下面我们将Dirac方程写成下列显含Weyl旋量的形式
+\begin{equation}
+    (i\gamma^{\mu}\partial_{\mu}-m)\psi=\left(\begin{array}{cc}
+       -m  &i(\partial_{0}+\vec{\sigma}\cdot \nabla)  \\
+       i(\partial_{0}-\vec{\sigma}\cdot \nabla)   & -m
+    \end{array}\right)
+    \left(\begin{array}{cc}
+         \chi_{L}  \\
+         \phi_{R} 
+    \end{array}\right)=0
+\end{equation}
+即
+\begin{equation}
+\label{chap4chiralDirac}
+    \begin{aligned}
+    i(\partial_{0}+\vec{\sigma}\cdot \nabla) \phi_{R}-m\chi_{L}&=0\\
+    i(\partial_{0}-\vec{\sigma}\cdot \nabla) \chi_{L}-m\phi_{R}&=0\\
+    \end{aligned}
+\end{equation}
+这是Dirac方程的另一种形式，其中我们注意到$m$混合了$\phi_{R}$和$\chi_{L}$,如果我们取手征极限$m\longrightarrow 0$,我们发现(\ref{chap4chiralDirac})退化成两个完全独立的方程
+\begin{equation}
+\label{chap4chiralDiracm0}
+    \begin{aligned}
+    i(\partial_{0}+\vec{\sigma}\cdot \nabla) \phi_{R}&=0\\
+    i(\partial_{0}-\vec{\sigma}\cdot \nabla) \chi_{L}&=0\\
+    \end{aligned}
+\end{equation}
+我们称这一组方程为Weyl方程。Weyl方程很适合用于描述物理上存在的一类非常轻的费米子，如中微子；此外，如果考虑的能标非常高，可以忽略电子质量时，Dirac方程就会退化为Weyl方程。
+
+为了形式上的方便，我们令$\sigma^{\mu}\doteq(I_{2},\vec{\sigma}),\;\overline{\sigma}^{\mu}\doteq(I_{2},-\vec{\sigma})$，从而可以将Dirac方程和Weyl方程写成更紧凑的形式
+\begin{equation}
+    \begin{aligned}
+    i\sigma\partial \phi_{R}-m\chi_{L}&=0\\
+    i\overline{\sigma}\partial \chi_{L}-m\phi_{R}&=0\\
+    \end{aligned}
+\end{equation}
+\begin{equation}
+    \begin{aligned}
+    i\sigma\partial \phi_{R}&=0\\
+    i\overline{\sigma}\partial \chi_{L}&=0\\
+    \end{aligned}
+\end{equation}
+必须强调，我们这里得到的简单的形式是依赖于所选取的Dirac代数的具体表示的，如果我们选取的表示矩阵不全是分块对角的，则不会得到完全解耦的方程。从而手征性就不会显式地表现出来。
+
+\section{Dirac方程的自由粒子解}
+首先注意到从Dirac方程出发，我们有
+\begin{equation}
+\begin{aligned}
+    0=&(-i\gamma^{\nu}\partial_{\nu}-m)(i\gamma^{\mu}\partial_{\mu}-m)\psi\\
+    =&(\gamma^{\nu}\gamma^{\mu}\partial_{\nu}\partial_{\mu}+m^{2})\psi\\
+    =&\frac{1}{2}(\gamma^{\nu}\gamma^{\mu}+\gamma^{\mu}\gamma^{\nu})\partial_{\mu}\partial_{\nu}\psi+m^{2}\psi\\
+    =&(\partial^{2}+m^{2})\psi
+    \end{aligned}
+\end{equation}
+这样我们得到了K-G方程。这说明Dirac方程的解的每个分量要满足K-G方程，这一点对于自由粒子场论都成立，事实上，由于自由粒子满足在壳条件$p^{2}=m^{2}$，从而对任意自由粒子解$\phi$,我们有$(-p^{2}+m^{2})\phi=0$，这表明$\phi$满足K-G方程。对于Dirac方程的情况，我们设它的平面解为
+\begin{equation}
+    \psi(x)=u(p)e^{-ipx}
+\end{equation}
+其中$u(p)$为Dirac旋量，仅是$p^{\mu}$的函数，且$p^{2}=m^{2}$。将其带入Dirac方程可得
+\begin{equation}
+\label{chap4solvedirac}
+    (\cancel{p}-m)u(p)=0
+\end{equation}
+其中我们定义$\cancel{p}=\gamma^{\mu}p_{\mu}$。这是一个$4\times 4$矩阵方程，故$u(p)$通常有四个解，可以猜到，这四个解中有两个是正能解，有两个是负能解。我们下面先考虑$p_{0}=E>0$的情况。考虑到Lorentz不变性，我们先来考虑一个静止的粒子,满足$(p^{\mu}=(m,\vec{0}))$,此时(\ref{chap4solvedirac})变为
+\begin{equation}
+\label{chap4solvdirac222}
+    (p^{0}\gamma^{0}-mI)u(p^{0})=0
+\end{equation}
+写成矩阵形式
+\begin{equation}
+\left(\begin{array}{cc}
+    -m &m  \\
+     m& -m
+\end{array}\right)u(p^{0})=0
+\end{equation}
+我们可解得
+\begin{equation}
+   u(p^{0})=N\left( \begin{array}{cc}
+        \xi   \\
+          \xi
+    \end{array}\right)
+\end{equation}
+其中$N$为归一化因子，为了以后的方便，我们取$M=\sqrt{m}$，$\xi$为任意两分量列矢量，我们考虑$\mathbb{C}^{2}$的一组基底$\xi^{1}=(1,0)^{\top},\;\xi^{2}=(0,1)^{\top}$,它们之间满足正交关系$(\xi^{s})^{\dagger}\xi^{r}=\delta^{sr}$。
+
+于是我们可以定义
+\begin{equation}
+   u^{s}(p^{0})=\sqrt{m}\left( \begin{array}{cc}
+        \xi^{s}   \\
+          \xi^{s}
+    \end{array}\right)
+\end{equation}
+
+下面我们假设粒子沿着$z$轴运动，$p^{\mu}=(E,0,0,p_{z})$,其中$E=\sqrt{p_{z}^{2}+m^{2}}$。仿照上面静止的情况，我们有
+    \begin{equation}
+    \label{chap4exammmm}
+\left(\begin{array}{cc}
+    -m &p_{0}\sigma^{0}-p_{z}\sigma^{3}  \\
+     p_{0}\sigma^{0}+p_{z}\sigma^{3}& -m
+\end{array}\right)u(p)=0
+\end{equation}
+也就是
+ \begin{equation}
+ \label{chap4matrixbrute}
+\left(\begin{array}{cccc}
+    -m& 0 &E-p_{z} &0 \\
+    0& -m &0 &E+p_{z}\\
+    E+p_{z}& 0 &-m &0\\
+    0& E-p_{z} &0 &-m
+\end{array}\right)u(p)=0
+\end{equation}
+我们令$a=\sqrt{E-p_{z}},\;b=\sqrt{E+p_{z}}$,容易验证$a^{2}b^{2}=m^{2}$,从而$m=ab$
+于是矩阵方程(\ref{chap4matrixbrute})可写为
+ \begin{equation}
+ \label{chap4matrixbrute2}
+\left(\begin{array}{cccc}
+    -ab& 0 &a^{2} &0 \\
+    0& -ab &0 &b^{2}\\
+    b^{2}& 0 &-ab &0\\
+    0& a^{2} &0 &-ab
+\end{array}\right)u(p)=0
+\end{equation}
+可以验证，
+\begin{equation}
+    u^{s}(p)=\left(\begin{array}{cc}
+         \left(\begin{array}{cc}
+            a  & 0 \\
+             0 & b
+         \end{array}\right)\xi^{s}  \\
+          \left(\begin{array}{cc}
+            b  & 0 \\
+             0 & a
+         \end{array}\right)\xi^{s}
+    \end{array}\right)
+\end{equation}
+是可能的解。当$p_{z}=0$时，其退化为我们上面得到的静止粒子的解，这表明我们选取的归一化常数之间是一致的；在高能极限下，其变成
+\begin{equation}
+\label{chap4highenergy}
+\begin{aligned}
+    &u^{s=1}=\left(\begin{array}{cc}
+         \sqrt{E-p_{z}}  \\
+         0 \\
+         \sqrt{E+p_{z}}\\
+         0\\
+    \end{array}\right)\longrightarrow 
+    \sqrt{2E}\left(\begin{array}{cc}
+         0  \\
+         0 \\
+        \left(\begin{array}{cc}
+             1  \\
+             0 
+        \end{array}\right)
+    \end{array}\right)\\
+    &u^{s=2}=\left(\begin{array}{cc}
+    0\\
+         \sqrt{E+p_{z}}  \\
+         0 \\
+         \sqrt{E-p_{z}}\\
+    \end{array}\right)\longrightarrow 
+    \sqrt{2E}\left(\begin{array}{cc}
+         \left(\begin{array}{cc}
+             0  \\
+             1 
+        \end{array}\right)\\
+         0\\
+         0\\
+    \end{array}\right)
+    \end{aligned}
+\end{equation}
+由此可见在高能极限下，Dirac旋量退化成一个两分量左手/右手旋量,这将来在Dirac场的量子化完成后我们会看到，$\xi^{s}$分别对应电子的自旋向上和自旋向下的态。下面我们引入螺旋度(Helicity)的概念，考虑一个运动的粒子，其动量为$\vec{p}$，我们引入沿动量方向的单位向量$\hat{p}=\frac{\vec{p}}{|\vec{p}|}$,则我们定义螺旋度
+\begin{equation}
+    h=\hat{p}\cdot \vec{J}
+\end{equation}
+其中$\vec{J}=\vec{L}+\vec{S}$是总角动量。由于$\vec{L}=\vec{r}\times \vec{p}$，从而自然有$\hat{p}\cdot \vec{L}=0$,于是我们可以等价定义
+\begin{equation}
+    h=\hat{p}\cdot \vec{S}
+\end{equation}
+其物理意义是粒子自旋在动量方向的投影，我们要注意区分手征性和螺旋度，手征性是描述Dirac旋量在Lorentz变换下的不同行为的物理量。我们在这里选取的动量方向类似于在非相对论量子力学中所选择的$z$轴，我们将以$\hat{p}$作为自旋的本征态的方向，于是我们用$\frac{1}{2}$去标记自旋方向沿动量方向的粒子态，用$-\frac{1}{2}$
+去标记自旋方向沿动量相反方向的粒子态。
+
+对于我们刚才考虑的动量沿$z$轴的情况，可以写出其螺旋度算符
+\begin{equation}
+    h=S_{z}=S^{12}=\frac{1}{2}\left(\begin{array}{cc}
+       \sigma^{3}  &0  \\
+        0 & \sigma^{3}
+    \end{array}\right)
+\end{equation}
+利用螺旋度的定义，我们发现(\ref{chap4highenergy})中$u^{s=1}$是螺旋度为$\frac{1}{2}$的态，$u^{s=2}$是螺旋度为$-\frac{1}{2}$的态。从而在高能极限下，右手Weyl旋量对应$h=\frac{1}{2}$态，左手Weyl旋量对应$h=-\frac{1}{2}$态。需要强调的是，对于有质量的粒子，螺旋度是一个依赖于参考系的概念，例如，考虑一个螺旋度为$\frac{1}{2}$的有质量粒子，我们可以选择一个boost使得在新的参考系中其速度方向反向，而自旋的方向不变，于是在新的参考系中$h'=-\frac{1}{2}$。这一点也从$h$的定义可以看出，$\hat{p}\cdot \vec{S}$并不是一个Lorentz不变量。
+由狭义相对论可以知道，零质量粒子的运动速度是光速，从而我们无法通过boost使得螺旋度改变，从而此时螺旋度是一个Lorentz不变量，是一个好量子数，例如我们可以用三动量和螺旋度来标记一个光子态。对于无质量粒子，并不存在通常意义上的自旋态，我们后面会提到的光子的自旋为1，这句话其实指的是光子的螺旋度为1,我们将$h=+1$的光子称为右旋光，将$h=-1$的光子称为左旋光\footnote{不存在$h=0$的光子态，与之相类似，引力子是无质量的自旋为2的粒子，它的可能自旋态(螺旋度)也只有$h=\pm2$两种可能。事实上，自旋为$J$的零质量粒子只有$h=\pm J$两个自旋态。作为一个对比，自旋为$J$的有质量粒子存在$2J+1$个自旋态,这一差别来自于Lorentz群表示论中的一个很深刻的结论。首先我们知道量子态构成了无穷维的Hilbert空间$\mathcal{H}$，根据Wigner的定理，量子系统中的对称变换在相差一个相位的意义下可以写成作用在$\mathcal{H}$上的幺正算符或反幺正算符，由于场论中的时空对称群不是紧的，我们之前提到过，这样的群不存在有限维的幺正表示，于是Wigner的结论迫使我们必须考虑无穷维幺正表示。与有限维表示相比，无穷维情况要复杂很多，最直观的一点是我们不再有类似于(\ref{chap4SL2})的式子成立(即不再有$SO(1,3)\cong SU(2)\times SU(2)$)。根据Wigner's classification，要对无穷维幺正表示分类，我们需要考虑保持三动量不变的Lorentz群的子群。对于有质量粒子的情况，我们可以选择三动量为0的参考系，从而满足条件的子群为$SO(3)$,这是我们熟悉的情况，此时我们可以用通常的自旋来分类有质量的粒子；对于无质量粒子的情况，不存在静止的参考系，于是其四动量具有形式$p^{\mu}=(p,-p,0,0)$，从而$SO(3)$不能保持三动量不变，事实上，由沿动量方向的平移变换和以动量方向为转轴的转动变换$SO(2)$构成的群是我们所需要的子群，这一子群记为$SE(2)$，它有两类表示，一类是离散的，仅由$\frac{1}{2}$的整数倍来标记，另一类是连续的，需要用一组连续参数标记，后者目前还没有找到物理对应，而前者正是我们所讨论的螺旋度，对于无质量粒子，其螺旋度在恰当正时的Lorentz变换下是不变量，而空间反演操作会使螺旋度反号，因此对于任意无质量粒子其螺旋度只有$h=\pm J$两种可能。}。在高能极限下忽略电子的质量后，与光子相类似，电子也只存在自旋$s=\pm\frac{1}{2}$的态，而如果我们不忽略电子质量，其自旋态有$2\times \frac{1}{2}+1=2$种可能，因此我们看到电子是比较特殊的，当我们取连续的无质量极限时，其自由度并没有缺失，而对于光子而言我们在取无质量极限时会导致自由度由3减少至2，我们在量子化矢量场时会进一步讨论这一问题。从上面的讨论中我们发现当粒子质量为0时，手征性和螺旋度是绑定在一起的，左手分量对应负螺旋度，右手分量对应正螺旋度，不会随着参考系的变化而变化。
+
+下面我们讨论任意动量的情况下Dirac方程(\ref{chap4solvedirac})的解。套用(\ref{chap4exammmm})的求解方法，引入形式记号$a=\sqrt{p\sigma},\;b=\sqrt{p\overline{\sigma}}$,我们有$a^{2}b^{2}=(p\sigma)(p\overline{\sigma})=(p^{0})^{2}-\vec{p}^{2}=m^{2}I$，此外，我们期望有$ab=\sqrt{p\sigma}\sqrt{p\overline{\sigma}}=mI$\footnote{考虑到我们并没有真正定义给矩阵开根号是个什么操作，因此从有$a^{2}b^{2}=m^{2}I$并不能直接得到$ab=mI$},
+于是,类似于(\ref{chap4matrixbrute})，我们将Dirac方程写为
+\begin{equation}
+\label{chap4Diracneww}
+    \left(\begin{array}{cc}
+        -m & {p\sigma} \\
+        {p\overline{\sigma}} & -m
+    \end{array}\right)u(p)=0
+\end{equation}
+从而我们可以将解表示为
+\begin{equation}
+\label{chap4diracU}
+    u^{s}(p)=\left(\begin{array}{cc}
+         \sqrt{p\sigma}\;\xi^{s}  \\
+         \sqrt{p\overline{\sigma}}\;\xi^{s} 
+    \end{array}\right)
+\end{equation}
+其中$s=1,2$。与之相乘的指数因子为$e^{-ipx}$
+
+因此我们需要找到一组量$a,b$(形式上记为$\sqrt{p\sigma},\;\sqrt{p\overline{\sigma}}$)满足下列条件
+\begin{equation}
+    \begin{aligned}
+    a^{2}&=p\sigma\\
+     b^{2}&=p\overline{\sigma}\\
+      ab&=mI\\
+    \end{aligned}
+\end{equation}
+
+可以证明
+\begin{equation}
+    a=\frac{p\sigma+m}{\sqrt{2(p_{0}+m)}},\quad  b=\frac{p\overline{\sigma}+m}{\sqrt{2(p_{0}+m)}}
+\end{equation}
+满足条件。
+这样我们就完成了自由粒子的Dirac方程正能解的求解。
+
+如果考虑负能解，我们要将上面推导中的$E$改为$-E$，
+则(\ref{chap4solvedirac})变为
+\begin{equation}
+    -(p^{0}\gamma^{0}+\vec{p}\cdot\vec{\sigma}+mI)u(p)=0
+\end{equation}
+从而(\ref{chap4Diracneww})变成
+\begin{equation}
+    -\left(\begin{array}{cc}
+        m & {p\overline{\sigma}} \\
+        {p\sigma} & m
+    \end{array}\right)u(p)=0
+\end{equation}
+如果我们定义$\tilde{p}^{\mu}=(E,-\vec{p})$,则也可以写成
+\begin{equation}
+    -\left(\begin{array}{cc}
+        m & {\tilde{p}\sigma} \\
+        {\tilde{p}\overline{\sigma}} & m
+    \end{array}\right)u(p)=0
+\end{equation}
+类似正能解的情况我们可以得到其解为
+\begin{equation}
+    u^{s}(p)=\left(\begin{array}{cc}
+         \sqrt{\tilde{p}\sigma}\;\eta^{s}  \\
+         -\sqrt{\tilde{p}\overline{\sigma}}\;\eta^{s} 
+    \end{array}\right)
+\end{equation}
+其中$s=1,2,\eta^{s}$与$\xi^{s}$意义相同，也表示$\mathbb{C}^{2}$的一组基，通常也取为$\eta^{1}=(1,0)^{\top},\;\eta^{2}=(0,1)^{\top}$。与之相乘的指数因子为$e^{-i(-Et-\vec{p}\cdot\vec{x})}=e^{i\tilde{p}x}$
+我们重新定义
+\begin{equation}
+\label{chap4diracV}
+    v^{s}(\tilde{p})=u^{s}(p)=\left(\begin{array}{cc}
+         \sqrt{\tilde{p}\sigma}\;\eta^{s}  \\
+         -\sqrt{\tilde{p}\overline{\sigma}}\;\eta^{s} 
+    \end{array}\right)
+\end{equation}
+其满足
+\begin{equation}
+    (\cancel{\tilde{p}}+m)v^{s}(\tilde{p})=0
+\end{equation}
+我们将其中的变量名仍记为$p$，则有
+\begin{equation}
+    (\cancel{p}+m)v^{s}(p)=0
+\end{equation}
+与之相乘的指数因子为$e^{ipx}$。这代表着Dirac场的两个负能解。
+我们也考虑动量方向沿$z$轴的情况，类似于(\ref{chap4highenergy})我们有
+\begin{equation}
+\begin{aligned}
+    &v^{s=1}(p)=\left(\begin{array}{cc}
+         \sqrt{E-p_{z}}  \\
+         0 \\
+         -\sqrt{E+p_{z}}\\
+         0\\
+    \end{array}\right)\longrightarrow 
+    \sqrt{2E}\left(\begin{array}{cc}
+         0  \\
+         0 \\
+        \left(\begin{array}{cc}
+             -1  \\
+             0 
+        \end{array}\right)
+    \end{array}\right)\\
+    &v^{s=2}(p)=\left(\begin{array}{cc}
+    0\\
+         \sqrt{E+p_{z}}  \\
+         0 \\
+         -\sqrt{E-p_{z}}\\
+    \end{array}\right)\longrightarrow 
+    \sqrt{2E}\left(\begin{array}{cc}
+         \left(\begin{array}{cc}
+             0  \\
+             1 
+        \end{array}\right)\\
+         0\\
+         0\\
+    \end{array}\right)
+    \end{aligned}
+\end{equation}
+其中我们再一次看到了手征性。
+
+下面来讨论Dirac旋量的归一化和完备性关系。我们主要利用(\ref{chap4diracU})和(\ref{chap4diracV})来进行计算。
+\begin{equation}
+\label{chap4dagger}
+    \begin{aligned}
+        &(u^{s})^{\dagger}(p)u^{r}(p)=2E_{\vec{p}}\delta^{rs}\\
+        &(v^{s})^{\dagger}(p)v^{r}(p)=2E_{\vec{p}}\delta^{rs}\\
+        &(u^{s})^{\dagger}(E,\vec{p})v^{r}(E,-\vec{p})=0\\
+        &(v^{s})^{\dagger}(E,\vec{p})u^{r}(E,-\vec{p})=0\\
+            \end{aligned}
+\end{equation}
+值得注意的是，从我们之前的推导可以看出，$u(p)$与$v(p)$所表示的态的动量的符号是相反的，这也是后两式中动量前负号的来源。
+\begin{equation}
+    \begin{aligned}
+    \label{chap4bar}
+       &\overline{u}^{s}(p)u^{r}(p)=2m\delta^{rs}\\
+        &\overline{v}^{s}(p)v^{r}(p)=-2m\delta^{rs}\\
+        &\overline{u}^{s}(p)v^{r}(p)=0\\
+        &\overline{v}^{s}(p)u^{r}(p)=0
+    \end{aligned}
+\end{equation}
+在上面两组正交关系中我们利用了之前选取的$\xi^{s}$和$\eta^{s}$所满足的正交关系。注意到对于零质量粒子，(\ref{chap4bar})中所有关系都是平庸的，因此我们此时选择$\ref{chap4dagger}$作为旋量的归一化条件。
+
+下面推导完备性关系(自旋求和)。
+\begin{equation}
+\label{chap4complete1}
+\begin{aligned}
+    \sum\limits_{s=1,2}u^{s}(p)\overline{u}^{s}(p)&=\sum\limits_{s}\left(\begin{array}{cc}
+         \sqrt{p\sigma}\;\xi^{s}  \\
+         \sqrt{p\overline{\sigma}}\;\xi^{s} 
+    \end{array}\right)\left((\xi^{s})^{\dagger}\sqrt{p\overline{\sigma}},(\xi^{s})^{\dagger}\sqrt{p{\sigma}}\right)\\
+    &=\left(\begin{array}{cc}
+        m & p\sigma \\
+        p\overline{\sigma} & m
+    \end{array}\right)\\
+    &=\cancel{p}+m
+    \end{aligned}
+\end{equation}
+其中第一行到第二行我们利用了完备关系$\sum\limits_{s=1,2}\xi^{s}(\xi^{s})^{\dagger}=I_{2}$,完全类似地计算可以给出
+\begin{equation}
+\label{chap4complete2}
+    \sum\limits_{s=1,2}v^{s}(p)\overline{v}^{s}(p)=\left(\begin{array}{cc}
+        -m & p\sigma \\
+        p\overline{\sigma} & -m
+    \end{array}\right)=\cancel{p}-m
+\end{equation}
+\subsection{Dirac矩阵和Dirac场的双线型}
+我们已经知道$\overline{\psi}\psi$是Lorentz标量，$\overline{\psi}\gamma^{\mu}\psi$具有Lorentz矢量的变换形式，一般地，我们可以考虑具有下列形式的双线型:
+\begin{equation}
+    \overline{\psi}\Gamma\psi
+\end{equation}
+其中$\Gamma$是一个$4\times 4$矩阵。
+我们列出可能的$\Gamma$的形式及其具备该形式的矩阵数目
+\begin{equation*}
+    \begin{aligned}
+    &I\quad\quad &1\\
+    &\gamma^{\mu}\quad\quad &4\\
+    &\gamma^{\mu}\gamma^{\nu}\quad\quad &6\\
+    &\gamma^{\mu}\gamma^{\nu}\gamma^{\sigma}\quad\quad &4\\
+    &\gamma^{\mu}\gamma^{\nu}\gamma^{\sigma}\gamma^{\rho}\propto\gamma^{0}\gamma^{1}\gamma^{2}\gamma^{3}\quad\quad &1\\
+    \end{aligned}
+\end{equation*}
+注意gamma矩阵的乘积中不同名的指标都不相等，否则根据Dirac代数我们可以将其写成更少数目的gamma矩阵的乘积。
+可以证明这十六个矩阵是一组$4 \times 4$矩阵的基，这一点我们在前面的脚注中曾经提到过。
+从而对于任意矩阵$\Gamma$可以被这16个矩阵线性表出。
+
+例如，对于$S^{\mu\nu}=\frac{i}{4}\left[\gamma^{\mu},\gamma^{\nu}\right]$，利用(\ref{chap4spinorimpor})我们可以得到它在Lorentz变换下的行为是
+\begin{equation}
+    \overline{\psi}S^{\mu\nu}\psi\xlongrightarrow{\Lambda}\Lambda^{\mu}_{\;\;\alpha}\Lambda^{\nu}_{\;\;\beta} \overline{\psi}S^{\alpha\beta}\psi
+\end{equation}
+这是张量的变换形式，因此我们称这是由Dirac场构造出的张量双线型。
+
+为了简化后面的讨论，我们引入
+\begin{equation}
+    \gamma^{5}=i\gamma^{0}\gamma^{1}\gamma^{2}\gamma^{3}=-\frac{i}{4!}\epsilon_{\mu\nu\rho\sigma}\gamma^{\mu}\gamma^{\nu}\gamma^{\rho}\gamma^{\sigma}
+\end{equation}
+其中$\epsilon^{\mu\nu\rho\sigma}$是四阶全反对称张量且$\epsilon^{0123}=+1$\footnote{我们使用的矢量记号为0123，因此似乎应该将这个乘积定义为$\gamma^{4}$，但是为了与矢量的1234记号区分，所以将其命名为$\gamma^{5}$}。
+
+在手征Weyl表示下，直接计算我们可以得到
+\begin{equation}
+\label{chap4weylgamma5}
+\gamma^{5}=\left(\begin{array}{cc}
+    -I & 0 \\
+    0 & I
+\end{array}\right)
+\end{equation}
+直接计算验证我们可以得到
+\begin{equation}
+    \begin{aligned}
+    (\gamma^{5})^{\dagger}&=\gamma^{5}\\
+    (\gamma^{5})^{2}&=I\\
+    \left\{\gamma^{5},\gamma^{\mu}\right\}&=0\\
+       \left[\gamma^{5},S^{\mu\nu}\right]&=0 
+    \end{aligned}
+\end{equation}
+这四条性质并不依赖于具体的表象，我们可以从定义出发利用Dirac代数直接证明。
+
+回忆Dirac旋量具有形式
+\begin{equation}
+    \psi=\left(\begin{array}{cc}
+         \chi_{L}  \\
+         \phi_{R} 
+    \end{array}\right)
+\end{equation}
+利用$\gamma^{5}$在Weyl表示下的形式(\ref{chap4weylgamma5})，我们有
+\begin{equation}
+    \gamma^{5}\left(\begin{array}{cc}
+         \chi_{L}  \\
+         0 
+    \end{array}\right)=-\left(\begin{array}{cc}
+         \chi_{L}  \\
+         0 
+    \end{array}\right);\quad \gamma^{5}\left(\begin{array}{cc}
+         0  \\
+         \phi_{R} 
+    \end{array}\right)=\left(\begin{array}{cc}
+         0  \\
+         \phi_{R} 
+    \end{array}\right)
+\end{equation}
+
+我们定义左手投影算符$P_{L}$和右手投影算符$P_{R}$如下：
+\begin{equation}
+    P_{L}=\frac{1-\gamma^{5}}{2}=\left(\begin{array}{cc}
+    I & 0 \\
+    0 & 0
+\end{array}\right),\quad P_{R}=\frac{1+\gamma^{5}}{2}=\left(\begin{array}{cc}
+    0 & 0 \\
+    0 & I
+\end{array}\right)
+\end{equation}
+直接计算可得这两个算符满足投影算符的要求，
+\begin{equation}
+    \begin{aligned}
+    P_{L}+P_{R}&=I\\
+    P_{L}P_{R}&=P_{R}P_{L}=0\\
+     P_{L}^{2}&=P_{L}\\
+     P_{R}^{2}&=P_{R}\\
+    \end{aligned}
+\end{equation}
+显然这两个算符将Dirac旋量分别投影到左手旋量和右手旋量。这一算符在电弱理论中发挥有重要作用，与量子电动力学不同，电弱理论关于左右手并不是对称的，因此我们需要将左手旋量和右手旋量分别考虑。
+
+我们考虑双线型
+\begin{equation}
+    \overline{\psi}\gamma^{5}\psi
+\end{equation}
+在Lorentz变换下的变化，利用(\ref{chap4spinorimpor}),我们有
+\begin{equation}
+\begin{aligned}
+    \overline{\psi}\gamma^{5}\psi\xlongrightarrow{\Lambda}&-\frac{i}{4!}\epsilon_{\mu\nu\rho\sigma}\overline{\psi}\Lambda^{-1}_{\frac{1}{2}}\gamma^{\mu}\gamma^{\nu}\gamma^{\rho}\gamma^{\sigma}\Lambda_{\frac{1}{2}}\psi\\
+    =&-\frac{i}{4!}\epsilon_{\mu\nu\rho\sigma}\overline{\psi}\left(\Lambda^{-1}_{\frac{1}{2}}\gamma^{\mu}\Lambda_{\frac{1}{2}}\right)\left(\Lambda^{-1}_{\frac{1}{2}}\gamma^{\nu}\Lambda_{\frac{1}{2}}\right)\left(\Lambda^{-1}_{\frac{1}{2}}\gamma^{\rho}\Lambda_{\frac{1}{2}}\right)\left(\Lambda^{-1}_{\frac{1}{2}}\gamma^{\sigma}\Lambda_{\frac{1}{2}}\right)\psi\\
+    =&-\frac{i}{4!}\epsilon_{\mu\nu\rho\sigma}\Lambda^{\mu}_{\;\;\mu'}\Lambda^{\nu}_{\;\;\nu'}\Lambda^{\rho}_{\;\;\rho'}\Lambda^{\sigma}_{\;\;\sigma'}\overline{\psi}\Lambda^{-1}_{\frac{1}{2}}\gamma^{\mu'}\gamma^{\nu'}\gamma^{\rho'}\gamma^{\sigma'}\Lambda_{\frac{1}{2}}\psi\\
+    =&-\frac{i}{4!}\epsilon_{\mu'\nu'\rho'\sigma'}\text{det}(\Lambda)\overline{\psi}\Lambda^{-1}_{\frac{1}{2}}\gamma^{\mu'}\gamma^{\nu'}\gamma^{\rho'}\gamma^{\sigma'}\Lambda_{\frac{1}{2}}\psi\\
+    =&\text{det}(\Lambda)\overline{\psi}\gamma^{5}\psi
+    \end{aligned}
+\end{equation}
+其中利用了
+\begin{equation}
+\text{det}(\Lambda)=\epsilon_{\mu'\nu'\rho'\sigma'}\sum\limits_{\mu\nu\rho\sigma}\epsilon_{\mu\nu\rho\sigma}\Lambda^{\mu}_{\;\;\mu'}\Lambda^{\nu}_{\;\;\nu'}\Lambda^{\rho}_{\;\;\rho'}\Lambda^{\sigma}_{\;\;\sigma'}
+\end{equation}
+即
+\begin{equation}
+\epsilon_{\mu'\nu'\rho'\sigma'}\text{det}(\Lambda)=\sum\limits_{\mu\nu\rho\sigma}\epsilon_{\mu\nu\rho\sigma}\Lambda^{\mu}_{\;\;\mu'}\Lambda^{\nu}_{\;\;\nu'}\Lambda^{\rho}_{\;\;\rho'}\Lambda^{\sigma}_{\;\;\sigma'}
+\end{equation}
+
+对于恰当正时的Lorentz变换，我们有$\text{det}(\Lambda)=1$，此时$\overline{\psi}\gamma^{5}\psi$具有标量的变换性质，而在空间反演变换下，$\text{det}(\Lambda)=-1$，此时变换多了一个负号，我们将具有这样变换关系的量称为赝标量。
+
+由于$\gamma^{5}$中包含所有的单个gamma矩阵，因此$\gamma^{\mu}\gamma^{5}$当中只含有三个gamma矩阵，从而我们可以将$4\times 4$矩阵的一组基重写为
+\begin{equation*}
+    \begin{aligned}
+    &I\quad\quad &1\quad\quad&scalar\\
+    &\gamma^{\mu}\quad\quad &4\quad\quad&vector\\
+    &\gamma^{\mu}\gamma^{\nu}\quad\quad &6\quad\quad&tensor\\
+    &\gamma^{\mu}\gamma^{5}\quad\quad &4\quad\quad&pseudo-vector\\
+    &\gamma^{5}\quad\quad &1\quad\quad&pseudo-scalar\\
+    \end{aligned}
+\end{equation*}
+其中最后一列我们写出了起构成的双线型在Lorentz变换下的变换规则。
+
+我们定义两个局部流
+\begin{equation}
+\begin{aligned}
+  j^{\mu}(x)&=\overline{\psi}(x)\gamma^{\mu}\psi(x)\\
+  j^{\mu5}(x)&=\overline{\psi}(x)\gamma^{\mu}\gamma^{5}\psi(x)\\
+  \end{aligned}
+\end{equation}
+其中$j^{\mu}$被称为矢量流，$j^{\mu5}$被称为轴矢流，
+我们来计算其散度
+\begin{equation}
+    \begin{aligned}
+      \partial_{\mu}j^{\mu}(x)&=\left[\partial_{\mu}\overline{\psi}(x)\gamma^{\mu}\right]\psi(x)+\overline{\psi}(x)\left[\gamma^{\mu}\partial_{\mu}{\psi}(x)\right]\\
+      &=im\overline{\psi}(x)\psi(x)+\overline{\psi}(x)(-im\psi(x))\\
+      &=0\\
+      \partial_{\mu}j^{\mu5}(x)&=\left[\partial_{\mu}\overline{\psi}(x)\gamma^{\mu}\right]\gamma^{5}\psi(x)+\overline{\psi}(x)(-\gamma^{5})\left[\gamma^{\mu}\partial_{\mu}{\psi}(x)\right]\\
+      &=im\overline{\psi}(x)\gamma^{5}\psi(x)+\overline{\psi}(x)(-\gamma^{5})(-im\psi(x))\\
+      &=2im\overline{\psi}(x)\gamma^{5}\psi(x)\\
+    \end{aligned}
+\end{equation}
+其中利用了Dirac方程(\ref{chap4Diracdouble})及对易关系$\left\{\gamma^{5},\gamma^{\mu}\right\}=0$。可见$j^{\mu}(x)$是Noether流，这对应了$U(1)$对称性，为避免混淆，记为$U_{V}(1)$。事实上，考虑下列内禀变换
+\begin{equation}
+    \begin{aligned}
+    \psi\longrightarrow\psi'&=e^{i\alpha}\psi\\
+     \overline{\psi}\longrightarrow\overline{\psi}'&=e^{-i\alpha}\psi
+    \end{aligned}
+\end{equation}
+其对应的Noether流就是$j^{\mu}$对于$j^{\mu5}(x)$而言，其散度正比于$m$，从而在$m$很小时，可以近似认为轴矢流守恒，这对应强相互作用历史上著名的PCAC(Partially Conserved Axial Current),即轴矢流部分守恒，从现代的观点看这是由于$u,d$夸克质量很轻导致的。在手征极限$m\rightarrow0$下，我们有严格的轴矢流守恒。此时Dirac场的Lagrangian可写为
+\begin{equation}
+    \mathcal{L}_{m=0}=\overline{\psi}i\gamma^{\mu}\partial_{\mu}\psi
+\end{equation}
+我们发现$U_{A}(1)$变换
+\begin{equation}
+    \begin{aligned}
+    \psi\longrightarrow\psi'&=e^{i\alpha\gamma^{5}}\psi\\
+     \overline{\psi}\longrightarrow\overline{\psi}'&=e^{i\alpha\gamma^{5}}\psi
+    \end{aligned}
+\end{equation}
+仍然保持$\mathcal{L}$不变，且这一内禀连续对称性对应的守恒流就是$j^{\mu5}$。我们将这一变换称为手征变换。由此可见，无质量的Dirac场具有更强的$U_{A}(1)\times U_{V}(1)$对称性。
+我们重新组合守恒流$j^{\mu},\;j^{\mu5}$,得到新的守恒流如下
+\begin{equation}
+\begin{aligned}
+    j_{L}\doteq\overline{\psi}\gamma^{\mu}P_{L}\psi=\overline{\psi}\gamma^{\mu}\frac{1-\gamma^{5}}{2}\psi=\frac{1}{2}(j^{\mu}-j^{\mu5})\\
+     j_{R}\doteq\overline{\psi}\gamma^{\mu}P_{R}\psi=\overline{\psi}\gamma^{\mu}\frac{1+\gamma^{5}}{2}\psi=\frac{1}{2}(j^{\mu}+j^{\mu5})\\
+    \end{aligned}
+\end{equation}
+我们称上面定义的流分别为左手流和右手流，在手征极限下，左手流和右手流守恒。
+为了更清楚地看到这一点，我们将Dirac场的Lagrangian写成左右手场的形式
+\begin{equation}
+    \begin{aligned}
+        \mathcal{L}&=\overline{\psi}i\gamma^{\mu}(P_{L}+P_{R})\partial_{\mu}\psi-m\overline{\psi}(P_{L}+P_{R})\psi\\
+        &=\overline{\psi_{L}}i\cancel{\partial}\psi_{L}+\overline{\psi_{R}}i\cancel{\partial}\psi_{R}-m\overline{\psi_{R}}\psi_{L}-m\overline{\psi_{L}}\psi_{R}
+    \end{aligned}
+\end{equation}
+其中利用了
+\begin{equation}
+\begin{aligned}
+&    \overline{\psi_{L}}=\psi^{\dagger}_{L}\gamma^{0}=(P_{L}\psi)^{\dagger}\gamma^{0}=\psi^{\dagger}P_{L}\gamma^{0}=\overline{\psi}P_{R}\\
+&P_{L}^{2}=P_{L}=P_{L}^{\dagger}\\
+&\gamma^{\mu}P_{L}=P_{R}\gamma^{\mu}\\
+    \end{aligned}
+\end{equation}
+由此可见，导数项中左手场与右手场是解耦的，质量项的存在使得左手场和右手场发生了耦合，当我们取手征极限时，左右手场退化成完全独立的两个场，自然左手部分和右手部分分别对应守恒流$j_{L},\;j_{R}$，具有$U_{L}(1)\times U_{R}(1)$对称性。
+
+下面介绍一个被称为Fierz重排的技术上的细节，它会在Fermi-4相互作用中起到简化运算的作用。如果我们考虑下列乘积
+\begin{equation}
+    \overline{\psi}_{1}\Gamma\psi_{2}\overline{\psi}_{3}\Gamma'\psi_{4}
+\end{equation}
+在具体的计算中，我们想要将$\psi_{1}$和$\psi_{4}$ 缩并，$\psi_{2}$和$\psi_{3}$ 缩并，引入一组基将其写成
+\begin{equation}
+    \sum\limits_{k=1}\limits^{16}\overline{\psi}_{1}\tilde{\Gamma}_{k}\psi_{4}\overline{\psi}_{3}\tilde{\Gamma}_{k}'\psi_{2}
+\end{equation}
+这一过程被称为Fierz重排。下面以Weyl旋量为例，我们直接逐分量验证可得等式
+\begin{equation}
+\label{chap4fierz1}
+    (\sigma^{\mu})_{\alpha\beta}(\sigma_{\mu})_{\gamma\delta}=2\epsilon_{\alpha\gamma}\epsilon_{\beta\delta}
+\end{equation}
+其中只对$\mu$求和，$\epsilon_{12}=-\epsilon_{21}=+1$其余分量为零，因此我们有$\epsilon_{\alpha\beta}=(i\sigma^{2})_{\alpha\beta}$。
+利用
+\begin{equation}
+\sigma^{2}\sigma^{\mu}=\overline{\sigma}^{\mu\top}\sigma^{2}
+\end{equation}
+我们得到
+\begin{equation}
+    \epsilon_{\alpha\beta}(\sigma^{\mu})_{\beta\gamma}=(\overline{\sigma}^{\mu\top})_{\alpha\beta}\epsilon_{\beta\gamma}
+\end{equation}
+这一公式在计算中也会用到。
+
+例如，利用(\ref{chap4fierz1})，我们有
+\begin{equation}
+\begin{aligned}
+ &\left(\overline{u}_{1R}\sigma^{\mu}u_{2R}\right) \left(\overline{u}_{3R}\sigma_{\mu}u_{4R}\right)\\
+ =&\left(\overline{u}_{1R,\alpha}(\sigma^{\mu})_{\alpha\beta}u_{2R,\beta}\right) \left(\overline{u}_{3R,\gamma}(\sigma_{\mu})_{\gamma\delta}u_{4R,\delta}\right)\\
+ =&2\epsilon_{\alpha\gamma}\overline{u}_{1R,\alpha}\overline{u}_{3R,\gamma}\epsilon_{\beta\delta}u_{2R,\beta}u_{4R,\delta}\\
+ =&-\left(\overline{u}_{1R}\sigma^{\mu}u_{4R}\right) \left(\overline{u}_{3R}\sigma_{\mu}u_{2R}\right)
+ \end{aligned}
+\end{equation}
+\section{Dirac场的量子化}
+目前为止我们在前面的讨论，除非特殊说明，均局限在经典层面，下面仍在经典层面做一些量子化前的准备。
+与K-G场的情况类似，根据作用量的能量量纲为0，我们可以从Dirac场的经典Lagrangian出发得出$[\psi]=[\overline{\psi}]=\frac{3}{2}$。这一量纲表明，在手征极限下，作坐标尺度变换$x^{\mu}\longrightarrow \lambda x^{\mu}$，则Dirac场的变换为
+\begin{equation}
+    \psi(x) \longrightarrow \psi'(x)=\lambda^{\frac{3}{2}}\psi(\lambda^{-1} x)
+\end{equation}
+在这种意义上，我们说无质量的经典Dirac场论具有标度不变性。
+一般的，对于标度变换，如果场的变换为$\phi\longrightarrow\lambda^{\alpha}\phi$，则我们称$\alpha$为机械量纲(engineering dimension)，在后续课程中会看到，由于量子修正的存在，相互作用场的机械量纲不同于自由场论，对于$\alpha$的修正被称为反常量纲(anomalous dimension)。
+
+利用$\mathcal{L}_{Dirac}$我们可以求得
+\begin{equation}
+\begin{aligned}
+    \pi&=\frac{\partial\mathcal{L}}{\partial\dot{\psi}}=i\overline{\psi}\gamma^{0}=i\psi^{\dagger}\\
+    H&=\int d^{3}x\mathcal{H}=\int d^{3}xT^{00}=\int d^{3}x\left(\pi\dot{\psi}-\mathcal{L}_{Dirac}\right)\\
+    =&\int d^{3}x\left(i\overline{\psi}\gamma^{0}\partial_{0}\psi-\overline{\psi}i\gamma^{\mu}\partial_{\mu}\psi+m\overline{\psi}\psi\right)\\
+    =&\int d^{3}x \;\psi^{\dagger}\left(-i\gamma^{0}\vec{\gamma}\cdot\nabla+m\gamma^{0} \right)\psi\\
+    \end{aligned}
+\end{equation}
+回忆我们在第一章相对论性量子力学中写出的Dirac场的Hamiltonian(\ref{Dirac})，我们定义$\beta=\gamma^{0},\vec{\alpha}=\gamma^{0} \vec{\gamma}$,则得到了形式相一致的结果。
+
+下面我们在Schr$\ddot{o}$dinger表象($t=0$)下，引入等时正则量子化条件对Dirac场论进行量子化,这一点是受到了我们在K-G场中得到的启发。为了叙述方便，尽管我们采用自然单位制，下面的式子中人为恢复了$\hbar$。
+\begin{equation}
+\label{chap4diracquantum}
+    \left[\psi(\vec{x}),\pi(\vec{y})\right]=i\hbar\delta^{3}(\vec{x}-\vec{y})
+\end{equation}
+或者等价地，
+\begin{equation}
+    \left[\psi(\vec{x}),\psi^{\dagger}(\vec{y})\right]=\hbar\delta^{3}(\vec{x}-\vec{y})
+\end{equation}
+其余对易关系为零。
+
+我们引入的量子化条件的物理含义为我们不能同时测得同一时空点处场的值和它的变化率。
+当然事实证明，对易的量子化条件会产生很多问题，但是从这一条件出发推导去发现问题可以帮助我们更好的理解引入反对易关系的必要性以及Fermi-Dirac统计。
+
+对于K-G场，我们将场变量在$t=0$时刻分解成了
+\begin{equation}
+\begin{aligned}
+     \hat{\phi}(\vec{x})&=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\left(a_{\vec{p}}e^{i\vec{p}\cdot\vec{x}}+a^{\dagger}_{\vec{p}}e^{-i\vec{p}\cdot\vec{x}}\right)\\
+     &=\frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\left(a_{\vec{p}}+a^{\dagger}_{-\vec{p}}\right)e^{i\vec{p}\cdot\vec{x}}
+     \end{aligned}
+\end{equation}
+类似地，由于Dirac方程是一个复数旋量场,我们不再要求$\psi$作为算符是厄米的，而是将其写为
+\begin{equation}
+\begin{aligned}
+     \hat{\psi}(\vec{x})&=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\sum\limits_{s=1,2}\left(a^{s}_{\vec{p}}u^{s}(\vec{p})e^{i\vec{p}\cdot\vec{x}}+b^{s}_{\vec{p}}v^{s}(\vec{p})e^{-i\vec{p}\cdot\vec{x}}\right)\\
+     &=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}e^{i\vec{p}\cdot\vec{x}}\sum\limits_{s=1,2}\left(a^{s}_{\vec{p}}u^{s}(\vec{p})+b^{s}_{-\vec{p}}v^{s}(-\vec{p})\right)\\
+     \end{aligned}
+    \end{equation}
+类似地我们也可以写出$\hat{\psi}^{\dagger}$的Fourier展开式。注意此处我们引入的$b_[\vec{p}]$是一个形式上的湮灭算符，但这并不重要，在赋予物理诠释之前，我们总可以做一个变量替换使得$\tilde{b}^{\dagger}=b$，从而使其具有产生算符的形式。此外，我们在这里并没有引入任何反粒子的概念，$a_{\vec{p}}$湮灭一个能量为$E_{p}$的电子而$b_{\vec{p}}$湮灭一个能量为$-E_{\vec{p}}$的电子。
+
+与量子化K-G场时相同，我们需要确定我们引入的$a_{\vec{p}},\;b_{\vec{p}}$算符之间的对易关系以使得正则量子化条件(\ref{chap4diracquantum})成立。我们假设
+\begin{equation}
+    \begin{aligned}
+    \left[a^{r}_{\vec{p}},a^{s\dagger}_{\vec{q}}\right]&=(2\pi)^{3}\delta^{3}(\vec{p}-\vec{q})\delta^{rs}\\
+        \left[b^{r}_{\vec{p}},b^{s\dagger}_{\vec{q}}\right]&=(2\pi)^{3}\delta^{3}(\vec{p}-\vec{q})\delta^{rs}\\
+    \end{aligned}
+\end{equation}
+其余对易关系为零。直接验证可以知道上述条件满足要求，例如
+\begin{equation}
+\small
+    \begin{aligned}
+    \left[\psi(\vec{x}),\psi^{\dagger}(\vec{y})\right]&=\int \frac{d^{3}p\;d^{3}q}{(2\pi)^{6}}\frac{1}{\sqrt{4E_{\vec{p}}E_{\vec{q}}}}e^{i(\vec{p}\cdot\vec{x}-\vec{q}\cdot\vec{y})}\sum\limits_{s,r}\left(\left[a^{r}_{\vec{p}},a^{s\dagger}_{\vec{q}}\right]u^{r}(\vec{p})\overline{u}^{s}(\vec{q})+\left[b^{r}_{-\vec{p}},b^{s\dagger}_{-\vec{q}}\right]v^{r}(-\vec{p})\overline{v}^{s}(-\vec{q})\right)\gamma^{0}\\
+    &=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}e^{i\vec{p}\cdot(\vec{x}-\vec{y})}\sum\limits_{s}\left(u^{s}(\vec{p})\overline{u}^{s}(\vec{p})+v^{s}(-\vec{p})\overline{v}^{s}(-\vec{p})\right)\gamma^{0}\\
+    &=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}e^{i\vec{p}\cdot(\vec{x}-\vec{y})}(\cancel{p}+m+\left.\cancel{p}\right|_{-\vec{p}}-m)\gamma^{0}\\
+     &=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}e^{i\vec{p}\cdot(\vec{x}-\vec{y})}(2E_{\vec{p}}\gamma^{0})\gamma^{0}\\
+       &=\delta^{3}(\vec{x}-\vec{y})I_{4\times 4}
+    \end{aligned}
+\end{equation}
+其中利用了完备性关系($\ref{chap4complete1}$)和($\ref{chap4complete2}$)。这是一个矩阵等式，将其写成分量形式
+\begin{equation}
+     \left[\psi_{\alpha}(\vec{x}),\psi_{\beta}^{\dagger}(\vec{y})\right]=\delta^{3}(\vec{x}-\vec{y})\delta_{\alpha\beta}
+     \end{equation}
+目前为止一切都很丝滑，我们将Fourier展开式代入Hamiltonian可得
+\begin{equation}
+    \begin{aligned}
+    H=\int \frac{d^{3}p}{(2\pi)^{3}}\sum\limits_{s}\left(E_{\vec{p}}a^{s\dagger}_{\vec{p}}a^{s}_{\vec{p}}-E_{\vec{p}}b^{s\dagger}_{\vec{p}}b^{s}_{\vec{p}}\right)
+    \end{aligned}
+\end{equation}
+这是一个非常简洁的形式，它具有我们所期望的独立的两组无穷多独立的谐振子联合的形式，然而我们注意到由于负号的存在,$b^{\dagger}_{\vec{p}}$使得能量下降$E_{\vec{p}}$,从而$H$没有下界，该系统没有稳定的基态。
+
+下面我们来讨论因果性是否被保持，即$\left[\psi(x),\overline{\psi}(y)\right]$在类空间隔下是否为零，这是任何一个相对论性的场论应该满足的性质。为了完成这一计算，我们需要从Schr$\ddot{o}$ing表象过渡到Heisenberg表象:
+\begin{equation}
+    \psi(x)=e^{iHt}\psi(\vec{x},t=0)e^{-iHt}
+\end{equation}
+与K-G场的情况相同，我们有
+\begin{equation}
+    \begin{aligned}
+    a_{\vec{p}}^{s}(t)&=e^{iHt}a^{s}_{\vec{p}}(t=0)e^{-iHt}=a_{\vec{p}}^{s}e^{-iE_{\vec{p}}t}\\
+     b_{\vec{p}}^{s}(t)&=e^{iHt}b^{s}_{\vec{p}}(t=0)e^{-iHt}=b_{\vec{p}}^{s}e^{iE_{\vec{p}}t}\\
+    \end{aligned}
+\end{equation}
+从而在任意时刻我们有
+\begin{equation}
+\begin{aligned}
+    \hat{\psi}(x)&=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\sum\limits_{s=1,2}\left(a^{s}_{\vec{p}}u^{s}(\vec{p})e^{-ipx}+b^{s}_{\vec{p}}v^{s}(\vec{p})e^{ipx}\right)\\
+    \hat{\overline{\psi}}(x)&=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\sum\limits_{s=1,2}\left(a^{s\dagger}_{\vec{p}}\overline{u}^{s}(\vec{p})e^{ipx}+b^{s\dagger}_{\vec{p}}\overline{v}^{s}(\vec{p})e^{-ipx}\right)\\
+    \end{aligned}
+\end{equation}
+其中$e^{-ipx}$项为正频部分，$e^{ipx}$项为负频部分。
+
+于是在类空间隔下我们可以进行以下计算
+\begin{equation}
+\label{chap4fakedirac}
+    \begin{aligned}
+        \left[\psi(x)_{a},\overline{\psi}_{b}(y)\right]&=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}\sum\limits_{s=1,2}\left(u_{a}^{s}(p)\overline{u}_{b}^{s}(p)e^{-ip(x-y)}+v_{a}^{s}(p)\overline{v}_{b}^{s}(p)e^{ip(x-y)}\right)\\
+        &=\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}\left[\left(\cancel{p}+m\right)_{ab}e^{-ip(x-y)}+\left(\cancel{p}-m\right)_{ab}e^{ip(x-y)}\right]\\
+        &=\left(i\cancel{\partial}_{x}+m\right)_{
+        ab}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{2E_{\vec{p}}}\left(e^{-ip(x-y)}-e^{ip(x-y)}\right)\\
+        &=\left(i\cancel{\partial}_{x}+m\right)_{
+        ab}\left[\phi(x),\phi(y)\right]\\
+        &=0\;,\quad(x-y)^{2}<0
+    \end{aligned}
+\end{equation}
+在最后一行我们利用了K-G场中得到的结论(\ref{chap3realKG})以及K-G场保护因果性。因此我们发现此时Dirac场的因果性被满足。
+
+由于$\left[\psi(x)_{a},\overline{\psi}_{b}(y)\right]$是一个c数，我们可以将其夹在两个真空态之间\footnote{要求$\braket{0}{0}=1\;a_{\vec{p}}^{s}\ket{0}=0\;b_{\vec{p}}^{s}\ket{0}=0$}
+\begin{equation}
+\label{chap4assumb}
+\begin{aligned}
+   & \bra{0}\left[\psi(x)_{a},\overline{\psi}_{b}(y)\right]\ket{0}\\
+    =&\bra{0}\psi(x)_{a}\overline{\psi}_{b}(y)\ket{0}-\bra{0}\overline{\psi}_{b}(y)\psi(x)_{a}\ket{0}\\
+    \sim & (a+b)(a^{\dagger}+b^{\dagger})-(a^{\dagger}+b^{\dagger})(a+b)
+    \end{aligned}
+\end{equation}
+对于最后一行的第一项，$\bra{0}aa^{\dagger}\ket{0}$和$\bra{0}bb^{\dagger}\ket{0}$均非零，表示粒子从$y$传播至$x$的几率振幅，而第二项则为$0$，从而(\ref{chap4fakedirac})迫使
+\begin{equation}
+   \bra{0}aa^{\dagger}\ket{0}=-\bra{0}bb^{\dagger}\ket{0} 
+\end{equation}
+我们发现Dirac场实现因果性的方式与K-G场相比非常诡异，其相互抵消项来自同一个矩阵元，而第二个矩阵元则完全不贡献，这不容易给出一个恰当的物理解释。
+
+至此我们发现，目前得到的量子化Dirac理论存在两处不和谐的地方，为了探究其根源，我们需要回顾上述推导过程中所做的两个假设：
+
+假设a：用对易关系进行量子化；
+
+假设b：对真空的相关假设，$a_{\vec{p}}^{s}\ket{0}=0\;b_{\vec{p}}^{s}\ket{0}=0$。
+
+我们考虑Dirac的空穴理论给出的物理图像\footnote{Dirac海并不是说这是一个正确的物理，但是它对于我们给出正确的假设是有帮助的}，真空被负能电子填满，这提示我们不应该认为真空是空无一物的客体，而应该更类似于Dirac海的结构，其中没有正能电子，从而仍然满足$a_{\vec{p}}^
+{s}\ket{0}=0$,但是真空已经被负能电子充满，不能再填充负能电子，于是有$b_{\vec{p}}^{s\dagger}\ket{0}=0$,然而我们总是可以湮灭一个负能电子，产生一个空穴，从而有$b_{\vec{p}}^{s\dagger}\ket{0}\neq 0$，于是我们可以得到修改后的新的假设
+
+假设b'：对真空的相关假设，$a_{\vec{p}}^{s}\ket{0}=0\;b_{\vec{p}}^{s\dagger}\ket{0}=0$。
+
+这样在(\ref{chap4assumb})中，我们发现非零的振幅变成了$\bra{0}aa^{\dagger}\ket{0}$和$\bra{0}b^{\dagger}b\ket{0}$，它们分别来自两个矩阵元，我们可以给出一个恰当的物理诠释，即从$y$传播到$x$的正能电子的振幅被从$x$传播到$y$的负能电子的振幅所抵消。
+
+我们希望量子化后的Dirac场具有稳定的基态，这促使我们去修改假设a。为了这一目的，我们先不对量子化条件作任何假设，而是从普适的物理学原理来计算(\ref{chap4assumb})中出现的两个矩阵元：
+\begin{equation}
+\label{chap4_1359}
+    \begin{aligned}
+       &\bra{0}\psi(x)_{a}\overline{\psi}_{b}(y)\ket{0}\\
+       =&\bra{0}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{p}}}}\sum\limits_{r}a^{r}_{\vec{p}}u^{r}(p)e^{-ipx}\times \int \frac{d^{3}q}{(2\pi)^{3}}\frac{1}{\sqrt{2E_{\vec{q}}}}\sum\limits_{s}a^{s\dagger}_{\vec{q}}\overline{u}^{s}(q)e^{iqy} \ket{0}\\
+    \end{aligned}
+\end{equation}
+其中我们需要计算$\bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}$,由于我们放弃了对量子化条件的假设，因此我们必须采用其它的方案来计算它。注意到在K-G场中我们有空间平移算符
+\begin{equation}
+    \begin{aligned}
+    e^{-i\vec{\hat{P}}\cdot\vec{x}}a_{\vec{p}} e^{i\vec{\hat{P}}\cdot\vec{x}}=a_{\vec{p}}e^{i\vec{p}\cdot\vec{x}}\\
+    e^{-i\vec{\hat{P}}\cdot\vec{x}}a_{\vec{p}}^{\dagger} e^{i\vec{\hat{P}}\cdot\vec{x}}=a_{\vec{p}}^{\dagger}e^{-i\vec{p}\cdot\vec{x}}\\
+    \end{aligned}
+\end{equation}
+由于理论应该有Poincare不变性，我们期望在Dirac场论中也存在这样的关系,此外，我们假设真空具有平移不变性和转动不变性，即满足$\vec{\hat{P}}\ket{0}=0,\;\vec{\hat{J}}\ket{0}=0$,从而我们有
+\begin{equation}
+    e^{i\vec{\hat{P}}\cdot\vec{x}}\ket{0}= e^{-i\vec{\hat{P}}\cdot\vec{x}}\ket{0}=\ket{0}
+\end{equation}
+于是
+\begin{equation}
+    \begin{aligned}
+    &\bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}\\
+    =&\bra{0}e^{-i\vec{\hat{P}}\cdot\vec{x}}a^{r}_{\vec{p}}e^{i\vec{\hat{P}}\cdot\vec{x}}e^{-i\vec{\hat{P}}\cdot\vec{x}}a^{s\dagger}_{\vec{q}}e^{i\vec{\hat{P}}\cdot\vec{x}}\ket{0}\\
+    =&e^{i(\vec{p}-\vec{q})\cdot \vec{x}}\bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}\\
+    \end{aligned}
+\end{equation}
+上式要成立，且如果矩阵元非零，则必然有$\vec{p}=\vec{q}$,从而我们有
+\begin{equation}
+    \bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}\propto \delta^{3}(\vec{p}-\vec{q})
+\end{equation}
+再对角动量算符作同样的推导，我们可以得出
+\begin{equation}
+    \bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}\propto \delta^{rs}
+\end{equation}
+综上我们有
+\begin{equation}
+    \bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}\propto \delta^{3}(\vec{p}-\vec{q})\delta^{rs}
+\end{equation}
+出于方便，我们设
+\begin{equation}
+    \bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0}=(2\pi)^{3} C(\vec{p})\delta^{3}(\vec{p}-\vec{q})\delta^{rs}
+\end{equation}
+其中$C(\vec{p})$是与$\vec{p}$有关的待定函数。
+利用这一关系我们将(\ref{chap4_1359})写成
+\begin{equation}
+    \begin{aligned}
+       &\bra{0}\psi(x)_{a}\overline{\psi}_{b}(y)\ket{0}\\
+       =&\bra{0}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{{2E_{\vec{p}}}}\left(\cancel{p}+m\right)_{ab}C(\vec{p})e^{-ip(x-y)} \ket{0}\\
+    \end{aligned}
+\end{equation}
+
+我们对矩阵元作用Lorentz变换$\mathscr{U}(\Lambda)$\footnote{注意$\mathscr{U}(\Lambda)$作用的空间是无穷维Hilbert空间，给定一个时空变换$\Lambda$我们可以将其对应到作用到场空间的一个变换，我们也称$\mathscr{U}(\Lambda)$为量子版本的Lorentz变换算符。例如对K-G场我们有$\mathscr{U}(\Lambda)\ket{\vec{p}}=\ket{\Lambda\vec{p}}$}
+可以发现左边是协变的,为了右边也是协变的，我们必须有$C(\vec{p})$是Lorentz不变的，而这要求$C(\vec{p})$是$p^{2}$的函数，又因为粒子在壳，因此我们有$C(\vec{p})=C(m^{2})$是$m^{2}$的函数，于是$C(m^{2})$是一个与$\vec{p}$无关的常数。考虑到
+\begin{equation}
+    \bra{0}a^{r}_{\vec{p}}a^{s\dagger}_{\vec{q}}\ket{0} \propto \bra{\vec{p},s}\ket{\vec{q},r}
+\end{equation}
+而量子力学的基本原理要求态的模是正定的，因此我们有$C(m^{2})\geq0$。最终我们将(\ref{chap4_1359})写成
+\begin{equation}
+    \begin{aligned}
+       &\bra{0}\psi(x)_{a}\overline{\psi}_{b}(y)\ket{0}\\
+       =&\left(i\cancel{\partial}_{x}+m\right)_{ab}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{{2E_{\vec{p}}}}C(m^{2})e^{-ip(x-y)}\\
+       =&C(m^{2})\left(i\cancel{\partial}_{x}+m\right)_{ab}D(x-y)
+    \end{aligned}
+\end{equation}
+其中$D(x-y)$是K-G场的两点关联函数。
+
+对于$\bra{0}\overline{\psi}_{b}(y)\psi(x)_{a}\ket{0}$,我们由假设b'可知其正比于$\bra{0}b^{\dagger}b\ket{0}$,从而类似地，
+\begin{equation}
+    \begin{aligned}
+       &\bra{0}\overline{\psi}_{b}(y)\psi(x)_{a}\ket{0}\\
+       =&\bra{0}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{{2E_{\vec{p}}}}\left(\cancel{p}-m\right)_{ab}B(m^{2})e^{ip(x-y)} \ket{0}\\
+       =&-\left(i\cancel{\partial}_{x}+m\right)_{ab}\int \frac{d^{3}p}{(2\pi)^{3}}\frac{1}{{2E_{\vec{p}}}}B(m^{2})e^{ip(x-y)}\\
+       &=-B(m^{2})\left(i\cancel{\partial}_{x}+m\right)_{ab}D(y-x)
+    \end{aligned}
+\end{equation}
+其中$B$也是非负的常数。
+
+我们知道在$(x-y)^{2}<0$时，$D(x-y)=D(y-x)$,从而在类空间隔下，对易子
+\begin{equation}
+    \bra{0}\left[\psi(x)_{a},\overline{\psi}_{b}(y)\right]\ket{0}=(B+C)\left(i\cancel{\partial}_{x}+m\right)_{ab}D(x-y)
+\end{equation}
+由于$B,C$都是非负的常数，因此对易子在类空间隔下并不恒等于0，这迫使我们考虑反对易子。
+
+如果我们选取$B=C=1$,则在类空间隔下
+\begin{equation}
+    \bra{0}\left\{\psi(x)_{a},\overline{\psi}_{b}(y)\right\}\ket{0}=0
+\end{equation}
+
+回忆我们关于因果性的讨论，在那里我们给出，刻画两个事件是否会相互影响的数学实现是对易关系而非反对易关系，然而在这里我们被迫采用了反对易关系，这似乎会造成矛盾，不过由于单独的Dirac场$\psi,\overline{\psi}$不构成物理可观测量，从而避免了矛盾。由于单个Dirac场并不是可观测的，那么Dirac场构成的可观测量至少含有一对Dirac场，例如动量$\vec{p}$作为可观测量，其表达式为
+\begin{equation}
+    \hat{P}=\int d^{3}x \psi^{\dagger}(-i\nabla)\psi
+\end{equation}
+我们称含有偶数个Dirac场变量的算符为玻色型算符，含有奇数个Dirac场变量的算符为费米型算符。从而根据反对易关系，玻色型算符才可以对应可观测量。
+例如，对于双线型$\overline{\psi}\Gamma_{i}\psi$,我们有\footnote{利用公式$\left[AB,CD\right]=A\left\{B,C\right\}D-AC\left\{B,D\right\}+\left\{A,C\right\}DB-C\left\{A,D\right\}B$}
+\begin{equation}
+\begin{aligned}
+\left[\overline{\psi}\Gamma_{1}\psi,\overline{\psi}\Gamma_{2}\psi\right]=0,\quad(x-y)^{2}<0
+\end{aligned}
+\end{equation}
+综上，引入反对易关系后的Dirac场论的因果性仍然可以保持。
+
+根据上面的结果，我们提出修改后的假设：
+
+假设a'：用反对易关系进行等时量子化
+\begin{equation}
+     \left\{\psi_{\alpha}(\vec{x}),\psi_{\beta}^{\dagger}(\vec{y})\right\}=\delta^{3}(\vec{x}-\vec{y})\delta_{\alpha\beta}
+\end{equation}
+其余反对易关系为0
+
+假设b'：对真空的相关假设，$a_{\vec{p}}^{s}\ket{0}=0\;b_{\vec{p}}^{s\dagger}\ket{0}=0$。
+
+此外，我们可以验证下列关于产生湮灭算符的等式可以使新的反对易关系成立：
+\begin{equation}
+    \begin{aligned}
+    \left\{a^{r}_{\vec{p}},a^{s\dagger}_{\vec{q}}\right\}&=(2\pi)^{3}\delta^{3}(\vec{p}-\vec{q})\delta^{rs}\\
+        \left\{b^{r}_{\vec{p}},b^{s\dagger}_{\vec{q}}\right\}&=(2\pi)^{3}\delta^{3}(\vec{p}-\vec{q})\delta^{rs}\\
+    \end{aligned}
+\end{equation}
+其余反对易关系为0。
+
+利用上面的等式，我们可以得到正确的Hamiltonian
+    \begin{equation}
+    \begin{aligned}
+    H&=\int \frac{d^{3}p}{(2\pi)^{3}}\sum\limits_{s}\left(E_{\vec{p}}a^{s\dagger}_{\vec{p}}a^{s}_{\vec{p}}-E_{\vec{p}}b^{s\dagger}_{\vec{p}}b^{s}_{\vec{p}}\right)\\
+    &=\int \frac{d^{3}p}{(2\pi)^{3}}\sum\limits_{s}\left(E_{\vec{p}}a^{s\dagger}_{\vec{p}}a^{s}_{\vec{p}}+E_{\vec{p}}b^{s}_{\vec{p}}b^{s\dagger}_{\vec{p}}\right)\\
+    \end{aligned}
+\end{equation}
+其中我们利用了反对易关系并忽略了随之产生的无穷大常数。
+我们令
+\begin{equation}
+\begin{aligned}
+\tilde{b}_{\vec{p}}^{s}&= b_{\vec{p}}^{s\dagger}\\
+\tilde{b}_{\vec{p}}^{s\dagger}&= b_{\vec{p}}^{s}
+\end{aligned}    
+\end{equation}
+注意到这一重命名不改变反对易关系$\left\{\tilde{b}^{r}_{\vec{p}},\tilde{b}^{s\dagger}_{\vec{q}}\right\}=\left\{b^{r}_{\vec{p}},b^{s\dagger}_{\vec{q}}\right\}=(2\pi)^{3}\delta^{3}(\vec{p}-\vec{q})\delta^{rs}$。
+根据假设b'，$\tilde{b}_{\vec{p}}^{s}$产生一个动量为$\vec{p}$的负能量电子，等价于湮灭一个空穴，而$\tilde{b}_{\vec{p}}^{s\dagger}$等价于产生一个空穴。
+重新记$\tilde{b}$为$b$，于是我们得到
+ \begin{equation}
+    \begin{aligned}
+    H&=\int \frac{d^{3}p}{(2\pi)^{3}}\sum\limits_{s}\left(E_{\vec{p}}a^{s\dagger}_{\vec{p}}a^{s}_{\vec{p}}+E_{\vec{p}}b^{s\dagger}_{\vec{p}}b^{s}_{\vec{p}}\right)\\
+    \end{aligned}
+\end{equation}
+其中我们忽略了一个负的无穷大常数，其来源是我们认为真空被负能电子所填满。我们发现此时Hamiltonian是正定的，这就解决了之前存在的负能级问题。
+
+一个有意思的问题是，K-G场的真空能是$+\infty$，而Dirac场的真空能是$-\infty$，这两个真空能存在相互抵消的可能性，例如在超对称理论中，要求玻色子与费米子之间存在严格的对称性，可以证明，此理论的真空能是0。
+
+\subsection{Fermi-Dirac统计}
+事实上，Dirac海与空穴都是历史的产物，我们可以利用它建立物理图像，但是这些概念并不是真实的物理存在，例如，实验告诉我们真空是电中性的，而不是被负能电子填满的海洋。我们将重新命名后的$b$算符解释成湮灭一个正电子，将重新命名后的$b^{\dagger}$算符解释成产生一个正电子，从而我们可以将真空理解成既不存在电子也不存在正电子的态。
+从反对易关系$\left\{a^{r}_{\vec{p}},a^{s}_{\vec{q}}\right\}=\left\{b^{r}_{\vec{p}},b^{s}_{\vec{q}}\right\}=0$出发,我们有
+\begin{equation}
+\begin{aligned}
+    a^{s\dagger}_{\vec{p}}a^{r\dagger}_{\vec{q}}\ket{0}&= -a^{r\dagger}_{\vec{q}}a^{s\dagger}_{\vec{p}}\ket{0}\\
+    (a^{s\dagger}_{\vec{p}})^{2}\ket{0}&=0\\
+    \end{aligned}
+    即
+\end{equation}
+\begin{equation}
+    \begin{aligned}
+        \ket{\vec{p},s;\vec{q},r}&=-\ket{\vec{q},r;\vec{p},s}\\
+        \ket{\vec{p},s;\vec{p},s}&=0\\
+    \end{aligned}
+\end{equation}
+对于正电子我们有完全类似的关系。这样我们就从更基本的假设出发重新得到了Pauli不相容原理。
+
+自旋-统计定理：

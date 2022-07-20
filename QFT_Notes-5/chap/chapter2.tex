@@ -1,0 +1,529 @@
+\chapter{经典场论}
+我们在这一章的逻辑是，先得到经典场论，然后通过正则量子化得到量子场论。在处理无穷多自由度系统的时候，Lagrange描述相比Hamilton描述要更加重要，这是因为我们更加常用作用量
+\begin{equation}
+    S=\int dt L=\int d^{4}x\mathcal{L}
+\end{equation}
+其中$\mathcal{L}$是我们在上一章中提到的Lagrangian density，$\int d^{4}x=\int dt dx^{3}$。在本章中我们将证明$ d^{4}x$是一个Lorentz不变量。由于作用量$S$必须是Lorentz不变量，因此为了描述一个相对论不变的场论，我们必须要求$\mathcal{L}$也是Lorentz不变量，即我们只关心Lorentz不变的动力学体系\footnote{在凝聚态物理中Lorentz对称性并不重要，仅使用Galileo对称性就足够了，此时我们不必作这样的要求。}。
+
+此外，值得一提的是，由于没有进行量子化，我们在经典场论中将不会有任何粒子的概念。
+\section{Lorentz变换}
+假设在一个参考系中我们可以用一组坐标$x^{\mu}$来描述一个事件，而在另一个参考系中可以使用另一组坐标$x'^{\mu}$来描述它,这两组坐标存在关系
+\begin{equation}
+    x'^{\mu}=\Lambda^{\mu}_{\nu}x^{\nu}
+\end{equation}
+其中$\Lambda^{\mu}_{\nu}$为Lorentz变换矩阵。
+
+下面简单回顾一下Lorentz变换的基本性质。$\Lambda^{\mu}_{\nu}$可以由三个转动实参数$(\theta_{x},\theta_{y},\theta_{z})$和三个boost实参数$(\beta_{x},\beta_{y},\beta_{z})$刻画,其生成元的显式形式如下：
+\begin{equation}
+\label{Lorentzgenerator}
+\footnotesize
+\begin{aligned}
+L_{x}=&
+\left(
+    \begin{array}{cccc}
+        1 &0 & 0& 0 \\
+        0& 1 & 0& 0\\
+       0 & 0& {\rm cos}\theta_{x} &{\rm sin}\theta_{x} \\
+        0& 0& -{\rm sin}\theta_{x} &{\rm cos}\theta_{x}
+    \end{array}
+    \right)
+    ,
+    L_{y}=&
+\left(
+    \begin{array}{cccc}
+        1 & 0&0 & 0 \\
+        0& {\rm cos}\theta_{y}&0 & -{\rm sin}\theta_{y} \\
+        0& 0& 1 &0  \\
+        0 & {\rm sin}\theta_{y} &0& {\rm cos}\theta_{y}
+    \end{array}
+    \right)
+    ,
+   L_{z}=&
+\left(
+    \begin{array}{cccc}
+        1 &0 & 0& 0 \\
+       0 & {\rm cos}\theta_{z} &{\rm sin}\theta_{z}&0 \\
+        0&  -{\rm sin}\theta_{z} &{\rm cos}\theta_{z} &0\\
+        0& 0 & 0& 1\\
+    \end{array}
+    \right)  \\
+    K_{x}=&
+\left(
+    \begin{array}{cccc}
+       {\rm cosh }\beta_{x} & {\rm sinh }\beta_{x}& 0 &0 \\
+        {\rm sinh }\beta_{x} & {\rm cosh }\beta_{x}& 0 &0 \\
+        0 &0 & 1& 0 \\
+         0& 0 & 0& 1
+    \end{array}
+    \right),
+        K_{y}=&
+\left(
+    \begin{array}{cccc}
+       {\rm cosh }\beta_{y} &0& {\rm sinh }\beta_{y} &0 \\
+       0 &1 & 0& 0 \\
+        {\rm sinh }\beta_{y} &0& {\rm cosh }\beta_{y} &0 \\
+         0& 0 & 0& 1
+    \end{array}
+    \right),
+    K_{z}=&
+\left(
+    \begin{array}{cccc}
+       {\rm cosh }\beta_{z} & 0& 0 &{\rm sinh }\beta_{z} \\
+        0& 1 & 0& 0\\
+       0 &0 & 1& 0 \\
+        {\rm sinh }\beta_{z} & 0& 0 &{\rm cosh }\beta_{z} \\
+    \end{array}
+    \right)
+\end{aligned}
+\end{equation}
+其中定义${\rm cosh}\beta=\gamma=\frac{1}{\sqrt{1-v^{2}}}$,$\,v$是两参考系之间的相对速度\footnote{容易得到，$\beta=\frac{1}{2}{\rm ln}\frac{1+v}{1-v}$($\,c=1$)}，$L_{i}$和$K_{i}$分别表示绕$i$轴的旋转变换和boost。
+容易验证两个Lorentz变换的乘积还是Lorentz变换，事实上，所有Lorentz变换矩阵构成一个群，记为$O(1,3)$。作为一个熟知的结论，Lorentz群并不是联通的，事实上它由四个联通分支组成，我们讨论最多的是其中恰当正时的分支，即满足$\Lambda^{00}>1$且$det(\Lambda)=1$的洛伦兹变换构成的分支，当然这也构成一个群，通常记为$SO(1,3)^{+}$,今后我们提及Lorentz群时，如不特殊说明指的都是Lorentz群的恰当正时分支，其他的分支可以由空间反演变换$\mathcal{P}=diag(1,-1,-1,-1)$和时间反演变换$\mathcal{T}=diag(-1,1,1,1)$。相联系起来，即
+\begin{equation}
+    O(1,3)=SO(1,3)^{+}\cup \mathcal{T}SO(1,3)^{+}\cup \mathcal{P}SO(1,3)^{+}\cup \mathcal{PT}SO(1,3)^{+}
+\end{equation}
+
+在狭义相对论中我们假设四维间隔$ds^{2}=g_{\mu\nu}dx^{\mu}dx^{\nu}$\footnote{再次强调，$g_{\mu\nu}-g^{\mu\nu}=diag(1,-1,-1,-1)$},这是一个Lorentz不变量，即满足
+\begin{equation}
+    g_{\mu\nu}dx'^{\mu}dx'^{\nu}=g_{\rho\sigma}dx^{\rho}dx^{\sigma}
+\end{equation}
+从而我们有
+\begin{equation}
+    g_{\mu\nu}\frac{\partial x'^{\mu}}{\partial x^{\rho}}\frac{\partial x'^{\nu}}{\partial x^{\sigma}}=g_{\rho\sigma}
+\end{equation}
+利用$x'^{\mu}=\Lambda^{\mu}_{\;\;\rho}x^{\rho}$我们可以得到\footnote{利用$g_{\alpha\beta}dx^{\alpha}dx^{\beta}=g_{\rho\sigma}dx'^{\rho}dx'^{\sigma}=g_{\rho\sigma}\Lambda^{\rho}_{\;\;\alpha}\Lambda^{\sigma}_{\;\;\beta}dx^{\alpha}dx^{\beta}$可以得到相同的结论}
+\begin{equation}
+\label{lorentz1}
+    g_{\mu\nu}\Lambda^{\mu}_{\;\;\rho}\Lambda^{\nu}_{\;\;\sigma}=g_{\rho\sigma}
+\end{equation}
+类似地我们有
+\begin{equation}
+\label{lorentz2}
+    g^{\sigma\tau}\Lambda^{\nu}_{\;\;\sigma}\Lambda^{\kappa}_{\;\;\tau}=g^{\nu\kappa}
+\end{equation}
+利用(\ref{lorentz1})我们可以计算得到
+\begin{equation}
+    \left(g_{\nu\mu}g^{\rho\sigma}\Lambda^{\mu}_{\;\;\sigma}\right)\Lambda^{\nu}_{\;\;\tau}=g^{\rho\sigma}\left(g_{\nu\mu}\Lambda^{\mu}_{\;\;\sigma}\Lambda^{\nu}_{\;\;\tau}\right)=g^{\rho\sigma}g_{\sigma\tau}=\delta^{\rho}_{\;\;\tau}
+\end{equation}
+从而我们可以有
+\begin{equation}
+    \left(\Lambda^{-1}\right)^{\rho}_{\;\;\nu}=g_{\nu\mu}g^{\rho\sigma}\Lambda^{\mu}_{\;\;\sigma}=\Lambda_{\nu}^{\;\;\rho}
+\end{equation}
+将(\ref{lorentz1})和(\ref{lorentz2})分别写成矩阵的形式，我们有
+\begin{equation}
+\label{lorentzmatrix}
+    \pmb{\Lambda \,g\,\Lambda}^{\top}=\pmb{g},\quad \pmb{\Lambda}^{\top} \pmb{\,g\,\Lambda}=\pmb{g}
+\end{equation}
+事实上这两个式子是等价的，对其中一个两边取转置可以得到另一个。对于Lorentz的子群三维转动群$SO(3)$，其中元素满足$R^{\top}R=RR^{\top}=I_{3}$,将(\ref{lorentzmatrix})中各项写成分块矩阵可以很容易看出(\ref{lorentzmatrix})蕴含了$R^{\top}R=RR^{\top}=I_{3}$。
+
+为方便，我们在这里列出一些常用四矢量的显式形式
+\begin{equation}
+    \begin{aligned}
+    x^{\mu}&=(x^{0},x^{1},x^{2},x^{3})=(t,x,y,z)\\
+    x_{\mu}&=g_{\mu\nu}x^{\nu}=(x_{0},x_{1},x_{2},x_{3})=(t,-x,-y,-z)\\
+    p^{\mu}&=(p^{0},p^{1},p^{2},^{3})=(E,\vec{p})\\
+    p_{\mu}&=g_{\mu\nu}p^{\nu}=(p_{0},p_{1},p_{2},p_{3})=(E,-\vec{p})\\
+    \partial_{\mu}&=\frac{\partial}{\partial x^{\mu}}=(\partial_{0},\nabla)\\
+    \partial^{\mu}&=\frac{\partial}{\partial x_{\mu}}=g^{\mu\nu}\partial_{\nu}=(\partial_{0},-\nabla)
+       \end{aligned}
+\end{equation}
+下面简要回顾一下四矢量之间的运算，设$v,w$都是四矢量，则
+\begin{equation}
+    v\cdot w=g^{\mu\nu}v_{\mu}w_{\nu}=v^{\mu}w_{\mu}=v_{\mu}w^{\mu}=v^{0}w^{0}-v^{i}w^{i}
+\end{equation}
+这是一个Lorentz标量。
+因此我们有
+\begin{equation}
+    p^{2}=p^{\mu}p_{\mu}=E^{2}-\vec{p}^{2}\xlongequal{on-shell}m^{2}
+\end{equation}
+因此粒子的静质量是一个Lorentz标量。
+下面我们引入Lorentz张量的概念。设$T^{\mu\nu}$是一个二阶张量，其变换方式为
+\begin{equation}
+    T'_{\mu\nu}=\Lambda^{\mu}_{\;\;\alpha}\Lambda^{\nu}_{\;\;\beta}T^{\alpha\beta}
+\end{equation}
+类似地我们可以引入$n$阶张量。
+
+下面我们讨论场的分类问题。在相对论性场论中，所有的场按照其在Lorentz变换下的行为来进行分类，首先我们来考虑不带Lorentz指标的场$\phi(x)$，这样的场称之为标量场。此外还有带Lorentz指标的场，它们在Lorenz变换下满足
+\begin{equation}
+\label{classfy}
+\begin{aligned}
+  & \text{标量场}\quad \phi(x)\xlongrightarrow{x'=\Lambda x} \phi'(x')=\phi(x)\\
+   &\text{矢量场} \quad A^{\mu}(x)\xlongrightarrow{x'=\Lambda x} A'^{\mu}(x')=\Lambda^{\mu}_{\;\;\nu}A^{\nu}(x) \\
+   &\text{度规场(张量场)}\quad  h^{\mu\nu}(x)\xlongrightarrow{x'=\Lambda x} h'^{\mu}(x')=\Lambda^{\mu}_{\;\;\rho}\Lambda^{\nu}_{\;\;\sigma}h^{\rho\sigma}(x) \\
+   \end{aligned}
+\end{equation}
+此外我们还将讨论描述费米子的旋量场$\psi(x)$。
+
+此外，我们还可以从一个场出发去构造其他场，例如我们可以从一个标量场$\phi(x)$构造得到矢量场$\partial_{\mu}\phi(x) $,从一个矢量场$A^{\mu}(x)$出发构造得到张量场$F^{\mu\nu}=\partial^{\mu}A^{\nu}-\partial^{\nu}A^{\mu}$等。
+在我们构造Lorentz不变的Lagrangian时，将要对这些场做恰当的组合。
+\section{Euler-Lagrange方程}
+首先我们引入局域(local)场论的概念。之前我们得到，对于一个场，我们有Lagrangian$\;L=\int d^{3}x\mathcal{L}(x)$，其中我们要求$\mathcal{L}$是一个Lorentz标量，对于Hamiltonian$\;H=\int d^{3}x\mathcal{H}(x)$,由于$H$是四动量的0分量，因此我们通常不要求$H$是Lorentz不变的。
+我们来尝试构造标量场的Lagrangian。由Lorentz标量的要求，在$\mathcal{L}$中可能出现的项有$\partial_{\mu}\phi(x)\partial^{\mu}\phi(x)$,$\;\phi(x)$,$\;\phi(x)^{2}$,$\;\phi^{3}(x)\dots$，这些项里出现的每一个$\phi$场(或其导数项)均定义在同一个时空点$x$,且导数项只有有限项，这样的项称为局域的(local)，而形如$\int d^{3}y \phi(x)\phi(y)$的项包含不位于同一个时空点上的场的相互作用，因此是非局域的。我们在构造$\mathcal{L}$时只考虑局域的项，一个主要的考虑来自Lorentz对称性，例如对于$\int d^{3}y \phi(x)\phi(y)$，其中的积分测度$d^{3}y$并不是Lorenz不变量。
+
+在理论力学中，Lagrangian通常依赖于广义坐标及广义坐标的一阶时间导
+数，即$L=L(q,\dot{q})$,
+在相对论场论中，我们要求Lagrangian不直接依赖于$x$,且至多依赖于场的一阶导数，
+$\mathcal{L}=\mathcal{L}(\phi(x),\partial_{\mu}\phi(x))$。之所以做这样的假设，是出于以下的考虑，一方面，正确描述我们真实世界的标准模型只涉及关于场的一阶导数；另一方面，从技术上讲，如果我们引入更高阶的导数，为了确定一个场论我们所需要的边界条件就需要增加。
+
+我们直接给出K-G场的Lagrangian
+\begin{equation}
+\label{lagrangian-KG}
+\begin{aligned}
+    \mathcal{L}_{KG}(\phi,\dot{\phi})&=\frac{1}{2}\partial_{\mu}\phi(x)\partial^{\mu}\phi(x)-\frac{1}{2}m^{2}\phi^{2}(x)\\
+    &=\frac{1}{2}\dot{\phi}^{2}-\frac{1}{2}\nabla\phi\cdot\nabla\phi-\frac{1}{2}m^{2}\phi^{2}
+\end{aligned}
+\end{equation}
+其中$\frac{1}{2}\dot{\phi}^{2}$相当于动能项,$\frac{1}{2}\nabla\phi\cdot\nabla\phi$相当于弹性势能项。
+
+后面将会看到，利用这一Lagrangian及E-L方程，我们可以得出K-G场的运动方程为$(\partial^{2}+m^2)\phi(x)=0$，这与我们之前得到的K-G方程(\ref{KG})在形式上完全一样，但是在物理诠释上，(\ref{KG})中的$\phi(x)$是量子力学中的波函数，拥有几率诠释，而这里的$\phi(x)$只是经典场的运动方程，没有任何量子力学的内涵\footnote{顺便一提，历史上的二次量子化指的是当从相对论性量子力学得到K-G方程后，再将波函数当作场，将其进行量子化，即所谓的二次量子化。必须指出的是这种说法是有误导性的，我们完全可以忘掉这一历史的产物，我们的逻辑非常简单，正如我们对一维弦所做的那样，在得到经典场论后，将其进行一次量子化即可得到量子场论。}。
+
+与分析力学中类似，我们引入共轭动量密度
+\begin{equation}
+    \pi(x)=\frac{\partial \mathcal{L}}{\partial \dot{\phi}}
+\end{equation}
+并定义Hamiltonian density为
+\begin{equation}
+    \mathcal{H}(x)=\pi\dot{\phi}-\mathcal{L}
+\end{equation}
+对于K-G场的情况我们有
+\begin{equation}
+\begin{aligned}
+    \pi(x)&=\dot{\phi}(x) \\
+    \mathcal{H}_{KG}(\pi,\phi)&=\pi^{2}-\mathcal{L}=\frac{1}{2}\dot{\phi}^{2}+\frac{1}{2}(\nabla\phi)^{2}+\frac{1}{2}m^{2}\phi^{2}
+  \end{aligned}  
+\end{equation}
+从$\mathcal{H}_{KG}$的形式我们可以看出这是一个正定的量，由于$\mathcal{H}_{KG}$表示能量密度，因此在经过全空间积分后我们可以得知经典K-G场的能量是正定的，即能量是有下界\footnote{囿于下这个表达也太奇怪了}的。注意到当体系处于基态时，应有$(\nabla \phi)^{2}=0,\;\phi^{2}=0$,可以认为,体系有一个稳定的基态。任何一个定义良好的场论，我们都要求它的能量密度是正定的，这可以作为我们构造场论的又一准则。这也在另一个角度说明了我们在构造$\mathcal{L}_{KG}$时质量项前符号为负的合理性，否则我们得到的$\mathcal{H}_{KG}$将不是正定的。
+
+下面是一些术语。$\mathcal{L}_{KG}=\mathcal{K}-\mathcal{V}$，其中$\mathcal{K}$称为动能项，其中只含有关于场$\phi$的至多是二次型的项，$\mathcal{V}$为相互作用项，其中含有关于场$\phi$的至少是三次型的项。下面来看几个例子，$\frac{1}{2}(\partial_{\mu}\phi)^{2}$,$\;\overline{\psi}\gamma^{\mu}\partial_{\mu}\psi$,$\;-\frac{1}{4}F_{\mu\nu}F^{\mu\nu}$,$\;\frac{1}{2}m^{2}\phi^{2}$,$\;\frac{1}{2}\partial_{\mu}\phi_{1}\partial^{\mu}\phi_{2}$,$\;\phi\partial_{\mu}A^{\mu}$都是可能的动能项。一般只含有动能项的场论称之为自由场论，这意味着将其量子化后对应的是无穷多个\textbf{独立}的谐振子的和(回忆一维弦的量子化，其Hamiltonian是无穷多独立的谐振子的能量的和)，自由场论是最容易处理的场论，但是自由场论是平庸的，它无法描写粒子间的相互作用，自然无法用于处理散射。可能的相互作用项$\mathcal{int}$可以有以下的形式：$g \phi^{3}$,$\;\lambda \phi^{4}$,$\;e\overline{\psi}\gamma^{\mu}\psi A_{\mu}$,$\;g\partial_{\mu}\phi A^{\mu} \phi^{*}$ \footnote{我们之前讨论的都是实K-G场，但事实上也存在允许$\phi$取复数的复K-G场},$\;g^{2}(A_{\mu}A^{\mu})^{2}$,$\;\partial^{\mu}h_{\mu\nu}\partial^{\nu}h_{\alpha \beta}h^{\alpha\beta}$\footnote{这一项来自广义相对论，表示度规间的相互作用。当时空弯曲不是太厉害时，我们用$h_{\mu\nu}$表示时空偏离闵氏时空的程度},
+,其中$g,\lambda,e$称为耦合常数，表征场之间相互作用的强度。容易验证，对于自由场论，其运动方程是一个线性方程，如K-G方程、Dirac方程等；而对于相互作用场论，这一点不再成立。下面我们来推导经典场的运动方程。
+
+回忆单粒子的情形，在那里我们根据最小作用量原理$\delta S=0$推导了单粒子的运动方程为
+\begin{equation}
+    \frac{\partial L}{\partial q}=\frac{d}{dt}\frac{\partial L}{\partial \dot{q}}
+\end{equation}
+在推导中，初态与末态时的边界条件是固定的，考虑到经典力学是决定性的理论，固定边界条件后我们应该可以由最小作用量原理确定出其中每一个时刻、每一个空间点的运动状态。
+
+同样的，在经典场论中我们有
+\begin{equation}
+    S=\int_{t_{1}}^{t_{2}} dtL=\int d^{4}x \mathcal{L}(\phi,\partial_{\mu}\phi)
+\end{equation}
+根据最小作用量原理，
+\begin{equation}
+\begin{aligned}
+    0=\delta S &=\int d^{4}x \delta \mathcal{L} \\
+    &=\int d^{4}x \left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta \phi+\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \left(\partial_{\mu}\phi\right) \right\} \\
+    &=\int d^{4}x \left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta \phi+\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial_{\mu} \left(\delta \phi\right) \right\} \\
+    &=\int d^{4}x \left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta \phi+\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi \right)-\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right) \delta \phi\right\} \\
+    &=\int d^{4}x \left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta \phi-\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right) \delta \phi\right\} \\
+     &=\int d^{4}x \left\{\frac{\partial \mathcal{L}}{\partial \phi} -\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right) \right\}\delta \phi \\
+    \end{aligned}
+\end{equation}
+
+其中第二行到第三行我们利用了$\delta(\partial_{\mu}\phi)=\partial_{\mu}(\delta \phi)$,第三行到第四行利用了分部积分，第四行到第五行我们忽略了全导数项:首先应用Gauss定理将体积分转换为面积分,边界由时间边界和空间边界两部分组成，对于时间边界，类似于单粒子的情况，我们认为在初始和末态时刻的场是固定的，因此$\delta \phi=0$，对于空间边界，我们假设$\phi$以足够快的速度趋于0，使其可以抵消无穷大球面面积增长的效应后仍趋于0。今后除非特殊声明，我们总是可以忽略掉或者添加一个全导数项而不影响积分结果。
+
+由于$\delta\phi$的任意性\footnote{比如我们可以调整$\delta \phi$的符号，使得被积函数与$\delta \phi$的乘积恒为非负的}，我们必然有
+\begin{equation}
+\label{ELequation}
+\frac{\partial \mathcal{L}}{\partial \phi} -\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right)=0
+\end{equation}
+这就是著名的Euler- Lagrange方程。
+
+我们上面的推导只考虑了一种场的情况，但是相同的逻辑可以推广到多种场同时存在的情况，
+对于一系列场$\phi_{\alpha}\;\left(\alpha \in A\right)$,$\;A$是指标集,我们有
+\begin{equation}
+\label{ELequationout}
+\frac{\partial \mathcal{L}}{\partial \phi_{\alpha}} -\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi_{\alpha})}\right)=0
+\end{equation}
+
+下面我们利用E-L方程及(\ref{lagrangian-KG})推导K-G场的运动方程。
+首先计算可得
+\begin{equation}
+    \begin{aligned}
+        \frac{\partial \mathcal{L}}{\partial \phi}&=-m^{2}\phi^{2}\\
+        \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}&=\partial_{\mu}\phi
+    \end{aligned}
+\end{equation}
+带入E-L方程即得
+\begin{equation}
+\label{kg-field}
+    \partial^{2}\phi+m^{2}\phi=0
+\end{equation}
+这是一个线性方程。
+
+我们可以给$\mathcal{L}_{KG}$添加一项相互作用项$\mathcal{L}_{int}=-\frac{\lambda}{4!}\phi^{4}$,这样得到的场论称为$\lambda \phi^{4}$理论\footnote{根据我们在\ref{foot1}节关于自然单位制的脚注可以知道，由于$[S]=[\hbar]=0$，$[d^{4}x]=-4$,那么$[\mathcal{L}]=4$,根据Lagrangian的中的动能项我们可以得出$[\phi]=1$因此我们有耦合常数的量纲$[\lambda]$=0,}，我们可以得到这个理论的运动方程为
+\begin{equation}
+\label{kg-field2}
+    \partial^{2}\phi+m^{2}\phi+\frac{\lambda}{3!}\phi^{3}=0
+\end{equation}
+这不再是线性的。由此可见，即使在经典层次，引入相互作用项时也会使我们的理论变得非常复杂。
+
+作为一个练习，我们也可以利用E-L方程得到复K-G场的运动方程，其Lagrangian可以写成
+\begin{equation}
+\label{CKG}
+    \mathcal{L}_{CKG}=\partial_{\mu}\phi\partial^{\mu}\phi^{*}-m^{2}\phi\phi^{*}
+\end{equation}
+此外，通过Einstein-Hilbert作用量$S=\int \left[\frac{1}{2\kappa}R+\mathcal{L}_{M}\right]\sqrt{-g}d^{4}x$，我们可以得到Einstein场方程$R_{\mu\nu}-\frac{1}{2}g_{\mu\nu}R=\frac{8\pi G}{c^{4}}T_{\mu\nu}$。
+
+\section{对称性和守恒律}
+ 通常而言，所谓对称性，我们指的是，如果经过某一变换后，系统仍然保持不变的性质，例如圆具有绕其圆心旋转任意角度的不变性，这样的对称性我们称为连续对称性；对于正方形而言，它也有旋转对称性，但是角度只能是离散的$\frac{pi}{2}$的整数倍,这样的对称性我们称为离散对称性。在场论中，我们也有类似的性质，例如Maxwell方程组$\partial_{\mu}F^{\mu\nu}=ej^{\nu}$具有Lorentz不变性，此外还有很多物理系统具有时空平移不变性\footnote{这里还考虑了坐标系平移的效应，因此需要在Lorentz变换群的基础上再增加四个描写平移变换的参数，这样构成的变换群称为Poincare群,共10个参数}。
+ 这启发我们给出如下的更为准确的定义：对称性指的是系统在一个变换之下动力学不发生改变的性质。
+下面我们来讨论如何在场论中定量刻画一个对称性。我们有两种视角来探究这个问题，一个视角是运动方程保持不变，如刚才提到的Maxwell方程的例子；另一个视角是从E-L方程出发，要求$\mathcal{L}$不变\footnote{事实上，对于坐标伸缩变换$x'^{\mu}=ax^{\mu}$,Lagrangian会发生变化，因此更广泛的要求是$S$不变}。
+对于$\lambda \phi^{4}$理论，
+\begin{equation}
+\mathcal{L}=\frac{1}{2}(\partial_{\mu}\phi)^{2}-\frac{1}{2}m^{2}\phi^{2}-\frac{\lambda}{4!}\phi^{4}
+\end{equation}
+由于$\mathcal{L}$是Lorentz不变量且不显含时空坐标，因而该理论是Poincare不变的，事实上，有相当广泛的有实际应用的场论都是Poincare不变的，后面我们会看到这意味着能量守恒和动量守恒。此外，该系统还有$Z_{2}$对称性，即在变换$\phi \rightarrow -\phi$下Lagrangian不变，如果我们包含$\phi$的三次项，就将破坏这一对称性。从运动方程的视角来看，式(\ref{kg-field2})显然具有Lorentz对称性和$Z_{2}$对称性。
+
+我们以K-G场为例来详细计算一个Lorentz对称性的例子。考虑变换
+\begin{equation}
+    \begin{aligned}
+        x'^{\mu}&=\Lambda^{\mu}_{\;\;\nu}x^{\nu}\\
+        \phi'(x')&= \phi(x)
+    \end{aligned}
+\end{equation}
+其中第二个式子即为我们在(\ref{classfy})所要求的。
+
+由于Lagrangian也是Lorentz标量，从而我们期望得到$\mathcal{L}'(x')= \mathcal{L}(x)$。对于动能项，
+\begin{equation}
+\begin{aligned}
+    \partial_{\mu}\phi(x)\rightarrow \partial_{\mu'}\phi'(x')&=\frac{\partial}{\partial {x'^{\mu}}}\phi(x)\\
+    &=\frac{\partial \phi(x)}{\partial {x^{\nu}}}\frac{\partial x^{\nu}}{\partial x'^{\mu}}\\
+    &=(\Lambda^{-1})^{\nu}_{\;\;\mu}(\partial_{\nu}\phi)(x)
+    \end{aligned}
+\end{equation}
+从而我们有
+\begin{equation}
+\begin{aligned}
+    (\partial_{\mu}\phi(x))^{2}\rightarrow & g^{\mu\nu}(\partial_{\mu'}\phi'(x'))(\partial_{\nu'}\phi'(x'))\\
+    =&(\partial_{\alpha}\phi)(\partial_{\beta}\phi)(\Lambda^{-1})^{\alpha}_{\;\;\mu}(\Lambda^{-1})^{\beta}_{\;\;\nu}g^{\mu\nu}\\
+    =&g^{\alpha \beta}(\partial_{\alpha}\phi)(\partial_{\beta}\phi)\\
+    =&(\partial_{\mu}\phi(x))^{2}
+    \end{aligned}
+\end{equation}
+其中第二行利用了(\ref{lorentz2})。
+
+再由标量场的变换性质，我们马上可以得知K-G场的Lagrangian是Lorentz不变的。下面考虑运动方程在Lorentz变换下的行为
+\begin{equation}
+\begin{aligned}
+    (\partial^{2}+m^{2})\phi(x)\rightarrow &(\partial'^{2}+m^{2})\phi'(x')\\
+    =&\left(g^{\mu\nu}\frac{\partial}{\partial x'^{\mu}}\frac{\partial}{\partial x'^{\nu}}+m^{2}\right)\phi(x)\\
+    =&\left((\Lambda^{-1})^{\alpha}_{\;\;\mu}(\Lambda^{-1})^{\beta}_{\;\;\nu}g^{\mu\nu}\partial_{\alpha}\partial_{\beta}+m^{2}\right)\phi(x)\\
+    =&(\partial^{2}+m^{2})\phi(x)
+    \end{aligned}
+\end{equation}
+从而K-G场的运动方程也是Lorentz不变的。
+
+下面讨论对称性的分类问题。
+从对称性作用的对象来区分，我们有以下分类
+\begin{equation}
+\text{对称性}
+\left\{
+        \begin{array}{ll}
+           \text{\textbf{时空对称性}:坐标做变换$x^{\mu}\rightarrow x'^{\mu}=x^{\mu}+\delta x^{\mu}$;}\\
+           \text{同时场做变换$\phi(x)\rightarrow \phi'(x')=\phi(x)+\delta \phi$}\\
+            \text{\textbf{内禀对称性}:时空坐标不变的对称性，即$x'^{\mu}=x^{\mu}$}; \\
+            \text{场做变换$\phi(x)\rightarrow \phi'(x')=\phi(x)+\delta \phi$}\\
+        \end{array}
+    \right.
+\end{equation}
+其中时空对称性包括Lorentz对称性、Poincare对称性、时空伸缩对称性、共形变换；内禀对称性包括$Z_{2}$对称性，对于复K-G方程$\mathcal{L}_{CKG}$(式(\ref{CKG}))，变换$\phi \rightarrow e^{i\alpha}\phi;\phi^{*} \rightarrow e^{-i\alpha}\phi^{*}$也是内禀对称性,称为$U(1)$对称性，后面我们将会看到，$U(1)$对称性在QED中对应电荷守恒。QCD中的同位旋(Isospin)对称性$SU(2)$、味道对称性$SU(3)$、奇异数对称性都可以归结为内禀对称性。
+
+从描述对称性的参数的视角，对称性可以分为连续对称性与离散对称性。连续对称性包括Lorentz对称性、Poincare对称性、$U(1),SU(2),SU(3)$对称性等，对于这类对称性，我们可以考虑关于参数的无穷小变换，任何一个变换都可以通过恒等变换元$I$邻域内的无穷小变换的相继作用得到;离散对称性包括$Z_{2}$对称性、$C,P,T$变换等，对于这一类对称性我们无法考虑其无穷小变换。
+\section{Noether定理}
+连续对称性蕴含着守恒律这一著名的论断是Noether定理的主要内容，在本节中我们将试图证明这一命题，并对之前章节的一些问题做出进一步的阐释。
+\begin{center}
+    \fbox
+    {\shortstack[l]{
+    Noether 定理:如果一个系统具有某种\textbf{连续}对称性，并且当场的演化\\
+    满足\textbf{运动方程}时，则该系统存在相应的守恒流$j^{\nu}$,满足$\partial_{\nu}j^{\nu}=0$。
+    }
+    }
+\end{center}
+守恒流即对应着守恒律，它可以是矢量也可以是张量，后面我们会分别遇到这两种情况。
+
+在描述一个对称性时，存在两种等价的视角，一种是主动(active)视角,此时我们选定一个固定的参考系，变换前后场的时空位置发生改变;另一种是被动(positive)视角，此时我们固定某一个物理事件$P(x)$,变换前后参考系发生变化，则事件$P$的坐标在新的坐标系中也发生相应变化变为$P(x')$。在证明Noether定理时，选用被动视角会更简单一些。
+
+我们考虑一个固定的物理时空点$P$，在某一个坐标系中坐标为$x^{\mu}$,$f(x)$是任意场;在变换后的坐标系中坐标为$x'^{\mu}$,场为$f'(x')$。
+考虑无穷小变换
+\begin{equation}
+    x\rightarrow x'+\delta x
+\end{equation}
+考察场的变分
+\begin{equation}
+    \delta f=f'(x')-f(x)
+\end{equation}
+其物理意义是，在同一个物理时空点$P$，在新的坐标系下场的值与在原来的坐标系下场的值的变化。
+\begin{equation}
+\begin{aligned}
+    \delta f&=f'(x')-f(x)\\
+    &=f'(x+\delta x)-f(x)\\
+    &=f'(x)-f(x)+\delta x^{\mu}\partial_{\mu}f'(x)+O(\delta x^{\mu})\\
+    &=f'(x)-f(x)+\delta x^{\mu}\partial_{\mu}f(x)+O(\delta x^{\mu})\\
+    \end{aligned}
+\end{equation}
+其中第三行到第四行我们丢弃了高阶小量($f'(x)$与$f(x)$相差一个一阶小量，$\delta x^{\mu}$是一阶小量)，我们定义
+\begin{equation}
+    \delta_{0}=f'(x)-f(x)
+\end{equation}
+这是场在同一个坐标点处的变分(而不是同一个物理点，变换前后坐标均为$x^{\mu}$的两个点并不是同一个点)
+于是在精确到一阶的情况下我们有
+\begin{equation}
+\label{noether}
+    \delta f=\delta_{0}f+\delta x^{\mu}\partial_{\mu}f(x)
+\end{equation}
+下面我们通过一个例子来更明确地说明式(\ref{noether})
+
+考虑时空平移$x^{\mu}\rightarrow x'^{\mu}=x^{\mu}+a^{\mu}$,在被动视角下，坐标平移前后同一个物理点处的场不发生变化，即$\delta \phi=0$
+于是我们有
+\begin{equation}
+\label{delta1}
+    \delta_{0}\phi=\delta \phi-\delta x^{\mu}\partial_{\mu}\phi(x)=-a^{\mu}\partial_{\mu}\phi(x)
+\end{equation}
+事实上，$\delta_{0}$非零是容易判断的，当我们平移坐标系时，相当于反向平移函数$\phi'(x)=\phi(x-a)\approx \phi(x)-a^{\mu}\partial_{\mu}f(x)$,从而由$\delta_{0}$的物理含义可直接得出(\ref{delta1})。
+
+在被动变换的视角下，我们下面来证明Noether定理。由于对称变换使得作用量S不改变，因此我们有
+\begin{equation}
+\label{nother}
+\begin{aligned}
+    0=\delta S&=\delta \int d^{4}x\mathcal{L}\\
+    &=\int \left[\delta (d^{4}x)\mathcal{L}+d^{4}x\delta \mathcal{L}\right]\\
+    \end{aligned}
+\end{equation}
+其中
+\begin{equation}
+    \delta (d^{4}x)=d^{4}x\; {\rm det}\left(\frac{\partial x'^{\mu}}{\partial x^{\nu}}\right)-d^{4}x=d^{4}x\;{\rm det}\left(g^{\mu}_{\;\;\nu}+\frac{\partial \delta x^{\mu}}{\partial x^{\nu}}\right)-d^{4}x=d^{4}x\;\partial_{\mu}(\delta x^{\mu})
+\end{equation}
+由此可以看到，对于时空平移，这一项并不贡献，而对于Lorentz变换，我们有
+\begin{equation}
+    x'^{\mu}=\Lambda^{\mu}_{\;\;\nu}x^{\nu}=(\delta^{\mu}_{\;\;\nu}+\omega^{\mu}_{\;\;\nu})x^{\nu}
+\end{equation}
+将同样的无穷小Lorentz变换带入(\ref{lorentzmatrix})可以得到$\omega_{\mu\nu}=-\omega_{\nu\mu}$。
+从而对Lorentz变换我们有
+\begin{equation}
+    \delta (d^{4}x)=d^{4}x\partial_{\mu}(\omega^{\mu\nu}x_{\nu})=d^{4}xg_{\mu\nu}\omega^{\mu\nu}=0
+\end{equation}
+于是$\delta (d^{4}x)$也不贡献，事实上，对于Lorentz变换$\Lambda$,这一点可以从${\rm det}\Lambda=1$及$\delta (d^{4}x)=d^{4}x\; {\rm det}\left(\frac{\partial x'^{\mu}}{\partial x^{\nu}}\right)-d^{4}x=d^{4}x{\;\rm det}\Lambda-d^{4}x$直接看出。
+
+对于伸缩变换，积分测度的变分贡献并不为0。
+
+下面继续(\ref{nother})中的计算。
+\begin{equation}
+\begin{aligned}
+    \delta S&=\int d^{4}x \left[\;\partial_{\mu}(\delta x^{\mu})\mathcal{L}+\delta \mathcal{L}\right]\\
+    &=\int d^{4}x \left[\;\partial_{\mu}(\delta x^{\mu})\mathcal{L}+\delta_{0} \mathcal{L}+\delta x^{\mu} \partial_{\mu}\mathcal{L}\right]\\
+    &=\int d^{4}x \left[\;\partial_{\mu}(\delta x^{\mu})\mathcal{L}+\left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta_{0} \phi+\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta_
+    {0}\left(\partial_{\mu}\phi\right) \right\}+\delta x^{\mu} \partial_{\mu}\mathcal{L}\right]\\
+    &=\int d^{4}x \left[\;\partial_{\mu}(\delta x^{\mu}\mathcal{L})+\left\{\frac{\partial \mathcal{L}}{\partial \phi} \delta_{0} \phi+\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta_{0} \phi \right)-\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right) \delta_{0} \phi\right\}\right]\\
+    &=\int d^{4}x \left[\;\left\{\frac{\partial \mathcal{L}}{\partial \phi}-\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)}\right)\right\} \delta_{0} \phi+\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta_{0} \phi +\delta x^{\mu}\mathcal{L}\right)\right]\\
+     &=\int d^{4}x \left[\;\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta x^{\nu}\partial_{\nu} \phi +\delta x^{\mu}\mathcal{L}\right)\right]\\
+      &=\int d^{4}x \left[\;\partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi +\left(\mathcal{L}g^{\mu}_{\;\;\nu}- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial_{\nu} \phi\right)\delta x^{\nu}\right) \right]\\
+    \end{aligned}
+\end{equation}
+其中倒数第三行用到了场满足E-L方程并且利用了$\delta_{0}=\delta-\delta x^{\mu}\partial_{\mu}$。
+
+由于我们要求在对称变换下,对于任意的时空区域都有运动方程不变，即$\delta S=0$，从而我们必须有\footnote{注意我们这里的论证与在推导E-L方程时的论证并不相同}
+\begin{equation}
+    \partial_{\mu}\left(\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi +\left(\mathcal{L}g^{\mu}_{\;\;\nu}- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial_{\nu} \phi\right)\delta x^{\nu}\right)=0
+\end{equation}
+若令
+\begin{equation}
+    j^{\mu}=\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi +\left(\mathcal{L}g^{\mu}_{\;\;\nu}- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial_{\nu} \phi\right)\delta x^{\nu}
+\end{equation}
+则我们有
+\begin{equation}
+    \partial_{\mu}j^{\mu}=0
+\end{equation}
+这样我们就得到了守恒流。
+
+利用守恒流我们有
+\begin{equation}
+    0=\int d^{4}x \partial_{\mu}j^{\mu}=\int_{t_{1}}^{t_{2}}dt\int^{\infty}_{-\infty}d^{3}x \left(\partial_{0}j^{0}+\nabla\cdot\vec{j}\right)
+\end{equation}
+假设场在无穷远处以足够快的速度趋于0，利用Gauss定理可以上面第二项不贡献，于是我们有
+\begin{equation}
+    0=\int_{t_{1}}^{t_{2}}dt\int^{\infty}_{-\infty}d^{3}x \partial_{0}j^{0}=\int_{t_{1}}^{t_{2}}dt\partial_{0}\int^{\infty}_{-\infty}d^{3}x j^{0}=\int_{t_{1}}^{t_{2}}dt\partial_{0}Q(t)=Q(t_{2})-Q(t_{1})
+\end{equation}
+其中我们定义了$Q(t)=\int^{\infty}_{-\infty}d^{3}x j^{0}$,
+于是我们得到$Q(t)$与时间无关，即
+\begin{equation}
+    \frac{dQ(t)}{dt}=0
+\end{equation}
+在上述意义上，我们称Q为守恒荷，也称Noether荷。至此，我们完成了Noether定理的证明\footnote{我们上面的讨论是对一个独立的场进行的，如果存在多个独立场的话，可以类似我们在运动方程中所做的那样推广到多个场的情况}。
+
+下面我们来应用Noether定理。
+考虑时空平移变换，由之前的讨论我们知道$\delta x=a^{\mu},\delta \phi=0$,带入到守恒流中我们有
+\begin{equation}
+    j^{\mu}=\left(\mathcal{L}g^{\mu}_{\;\;\nu}- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial_{\nu} \phi\right)a^{\nu}
+\end{equation}
+由于$a^{\mu}$是任意的无穷小实数，从而我们可以定义
+\begin{equation}
+    T^{\mu\nu}=-\left(\mathcal{L}g^{\mu\nu}- \frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \partial^{\nu} \phi\right)
+\end{equation}
+这是一个二阶张量，事实上这就是著名的能量-动量张量。
+由于这是一个守恒流，所以我们有$\partial_{\mu}T^{\mu\nu}=0$,这包含四个方程，从而其有四个守恒荷。我们定义
+\begin{equation}
+P^{\nu}=\int d^{3}x T^{0\nu}
+\end{equation}
+于是我们可以得到
+\begin{equation}
+\label{noetherEP}
+\begin{aligned}
+    P^{0}&=\int d^{3}x T^{00}= \int d^{3}x\left(-\mathcal{L}+\frac{\partial \mathcal{L}}{\partial (\partial_{0}\phi)} \partial^{0} \phi\right)=\int d^{3}x\left(-\mathcal{L}+\pi\dot{\phi}\right)=H=E\\
+    P^{i}&=\int d^{3}x T^{0i}=\int d^{3}x\left(\frac{\partial \mathcal{L}}{\partial (\partial_{0}\phi)} \partial^{i} \phi\right)=-\int d^{3}x\left(\frac{\partial \mathcal{L}}{\partial (\partial_{0}\phi)} \partial_{i} \phi\right)=-\int d^{3}x\;\pi\left(\nabla \phi\right)_{i}
+\end{aligned}
+\end{equation}
+这说明总能量是时间平移不变性对应的守恒荷，总动量是空间平移不变性对应的守恒荷。
+
+考虑Lorentz变换，我们可以同样得到，其中空间转动对应角动量守恒，至此我们对于能量、动量、角动量都有了全新的理解，可以将其看做守恒流对应的守恒荷，这也是Noether定理重要的原因之一。
+
+下面我们考虑不改变坐标系的内禀对称性，此时$\delta x^{\mu}=0$,从而守恒流的表达式有了极大的简化，
+\begin{equation}
+    j^{\mu}=\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi
+\end{equation}
+下面考虑两个例子。
+
+首先考虑无质量K-G场的Lagrangian的平移对称性:\footnote{注意Noether定理只适用于连续对称性，因此$Z_{2}$对称性并不会带来Noether定理意义下的守恒流}
+\begin{equation}
+    \mathcal{L}=\frac{1}{2}(\partial_{\mu} \phi)^{2}
+\end{equation}
+考虑变换
+\begin{equation}
+    \phi \rightarrow \phi+\alpha
+\end{equation}
+其中$\alpha$为常数。由于此时Lagrangian只含导数项，从而这是一个对称变换，$\delta \phi=\alpha$。
+于是我们得到守恒流
+\begin{equation}
+    j^{\mu}=\alpha \partial_{\mu}\phi
+\end{equation}
+由于$\alpha$是一个常数，因此我们可以把守恒流写作
+\begin{equation}
+    j^{\mu}=\partial_{\mu}\phi
+\end{equation}
+下面我们直接验证这是一个守恒流
+\begin{equation}
+    \partial_{\mu}j^{\mu}=\partial^{2}\phi=0
+\end{equation}
+其中最后一个等号利用了无质量情形下的K-G方程。注意到我们在推导Noether定理的时候也显式利用了场满足运动方程的条件，因此在这里我们利用了运动方程来得到结果是完全可以预期的。
+
+第二个例子是关于之前提到过的$U(1)$对称性的。
+考虑复K-G场
+\begin{equation}
+    \mathcal{L}_{CKG}=\left|\partial_{\mu}\phi\right|^{2}-m^{2}\left|\phi\right|^{2}
+\end{equation}
+考虑无穷小相位变换
+\begin{equation}
+\begin{aligned}
+    \phi & \rightarrow \phi+i\alpha\phi \\
+    \phi^{*} & \rightarrow \phi^{*}-i\alpha\phi^{*} \\
+    \end{aligned}
+\end{equation}
+于是我们有$\delta \phi=i\alpha \phi,\;\delta \phi^{*}=-i\alpha \phi^{*}$,将$\phi$与$\phi^{*}$看作独立的场变量，我们有
+\begin{equation}
+    j^{\mu}=\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi)} \delta \phi+\frac{\partial \mathcal{L}}{\partial (\partial_{\mu}\phi^{*})} \delta \phi^{*}=i\left[(\partial^{\mu}\phi^{*})\phi-\phi^{*}\partial^{\mu}\phi)\right]
+\end{equation}
+其中我们在最后一个等号丢弃了无关紧要的常数$\alpha$。
+利用$\phi$和$\phi^{*}$的运动方程我们可以验证这确实是一个守恒流。依照定义我们有守恒荷
+\begin{equation}
+\label{CKGQ}
+    Q=\int d^{3}x j^{0}=i\int d^{3}x\left[\dot{\phi}^{*}\phi-\phi^{*}\dot{\phi}\right]
+\end{equation}
+我们称这个守恒荷为电荷，将来我们会看到，这一点在我们将复K-G场与光子场耦合起来之后可以看得更加明确。因此我们从Noether定理得到,电荷守恒来自于系统的内禀$U(1)$对称性。
